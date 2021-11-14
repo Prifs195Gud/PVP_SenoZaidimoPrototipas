@@ -152,6 +152,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteObject.cpp" />
+    <ClCompile Include="Tick.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Vectors.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteObject.h" />
+    <ClInclude Include="Tick.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
