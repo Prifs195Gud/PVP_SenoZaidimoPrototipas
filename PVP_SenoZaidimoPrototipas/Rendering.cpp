@@ -56,16 +56,17 @@ Rendering::Rendering()
 
 void Rendering::InitializeFont()
 {
-	std::string charSet = "0123456789abcdefghijklmnopqrstuvwxyz-";
+	std::string charSet = "0123456789abcdefghijklmnopqrstuvwXyz-x";
 
-	Vector2 letterPositions[37];
+	Vector2 letterPositions[38];
 
 	for (int i = 0; i < 37; i++) // 0123456789
 		letterPositions[i] = Vector2(i * 8, 0);
+	letterPositions[37] = Vector2(0, 8);
 
 	Vector2 letterSize = Vector2(8, 8);
 
-	for (size_t i = 0; i < 37; i++)
+	for (size_t i = 0; i < 38; i++)
 	{
 		lettersData.push_back(Sprite(letterPositions[i], letterSize));
 		lettersHashmap[charSet[i]] = i;

@@ -17,6 +17,7 @@ Game::Game()
 	gameQuit = false;
 	hasInitialized = false;
 	loopStarted = false;
+	playerHud = nullptr;
 
 	if (singleton == nullptr)
 	{
@@ -57,6 +58,9 @@ void Game::Initialize()
 	SDL_Surface* Surface = SDL_LoadBMP("Tileset.bmp");
 	rendering->SetTileset(SDL_CreateTextureFromSurface(mainRenderer, Surface));
 	SDL_FreeSurface(Surface);
+
+	// Zaidejo UI
+	playerHud = PlayerHUD::GetReference();
 
 	StartMainLoop();
 }

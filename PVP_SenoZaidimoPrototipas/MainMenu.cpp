@@ -128,19 +128,19 @@ Vector2 Page::GetPosition()
 void MainMenu::InitializeTitle()
 {
 	title.SetPosition(Vector2(128, 68));
-	title.SetSprite(Sprite(Vector2(119,123), Vector2(176,88)));
+	title.SetSprite(Sprite(Vector2(119, 131), Vector2(176, 88)));
 }
 
 void MainMenu::InitializePages()
 {
 	Rendering* render = Rendering::GetReference();
 
-	Sprite pointerTexture = Sprite(Vector2(36, 79), Vector2(8,8));
+	Sprite pointerTexture = Sprite(Vector2(36, 87), Vector2(8,8));
 
 	vector<string> pageInfo;
 
 	pageInfo.push_back("1 player game");
-	pageInfo.push_back("exit");
+	pageInfo.push_back("eXit");
 
 	Page* mainMenu = new Page(pageInfo, pointerTexture);
 

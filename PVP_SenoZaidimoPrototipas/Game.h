@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <MainMenu.h>
+#include <HUD.h>
 
 enum class GameState
 {
@@ -27,6 +28,8 @@ private:
 	bool paused, pressedPause, gameQuit, hasInitialized, loopStarted;
 
 	MainMenu mainMenu;
+	PlayerHUD* playerHud;
+
 	GameState currentGameState;
 	SDL_Window* gameWindow;
 
