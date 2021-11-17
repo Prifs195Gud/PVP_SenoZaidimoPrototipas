@@ -7,7 +7,7 @@ Rendering* Rendering::singleton = nullptr;
 
 void Rendering::DrawMapBackground()
 {
-	SDL_SetRenderDrawColor(mainRenderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(mainRenderer, 92, 148, 252, 255);
 	SDL_RenderDrawRect(mainRenderer, NULL);
 }
 

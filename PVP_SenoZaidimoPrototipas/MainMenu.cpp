@@ -127,55 +127,15 @@ Vector2 Page::GetPosition()
 
 void MainMenu::InitializeTitle()
 {
-	Vector2 spritePositions[8] = {
-		Vector2(256,192),
-		Vector2(288,192),
-		Vector2(320,192),
-		Vector2(256,224),
-		Vector2(280,224),
-		Vector2(304,224),
-		Vector2(328,224),
-		Vector2(352,224), };
-	Vector2 spriteSizes[8] = {
-		Vector2(28,28),
-		Vector2(28,28),
-		Vector2(28,28),
-		Vector2(24,28),
-		Vector2(24,28),
-		Vector2(20,28),
-		Vector2(24,28),
-		Vector2(24,28), };
-
-	for (size_t i = 0; i < 8; i++)
-		titleSprites[i] = Sprite(spritePositions[i], spriteSizes[i]);
-
-	int lettersToUse[10] = { 0,1,3,3,4,5,2,6,3,7 };
-
-	Vector2 objectPositions[10] = {
-		Vector2(46, 58),
-		Vector2(82, 58),
-		Vector2(115,58),
-		Vector2(147,58),
-		Vector2(179,58),
-		Vector2(209,58),
-		Vector2(82, 94),
-		Vector2(116,94),
-		Vector2(148,94),
-		Vector2(180,94), };
-
-	for (size_t i = 0; i < 10; i++)
-	{
-		SpriteObject* letter = new SpriteObject(titleSprites[lettersToUse[i]]);
-		letter->SetPosition(objectPositions[i]);
-		titleLetters.push_back(letter);
-	}
+	title.SetPosition(Vector2(128, 68));
+	title.SetSprite(Sprite(Vector2(119,123), Vector2(176,88)));
 }
 
 void MainMenu::InitializePages()
 {
 	Rendering* render = Rendering::GetReference();
 
-	Sprite pointerTexture;
+	Sprite pointerTexture = Sprite(Vector2(36, 79), Vector2(8,8));
 
 	vector<string> pageInfo;
 
@@ -184,77 +144,22 @@ void MainMenu::InitializePages()
 
 	Page* mainMenu = new Page(pageInfo, pointerTexture);
 
-	mainMenu->SetPosition(Vector2(92, 132));
-	mainMenu->Enable(false);
+	mainMenu->SetPosition(Vector2(92, 140));
 
 	pages.push_back(mainMenu);
 }
 
 
-MainMenu::MainMenu():isAnimPlaying(false), moveAmount(0), moveSpeed(2.5), titleLetters(), currentPage(0), previousKeyState(0), enabled(true)
+MainMenu::MainMenu(): moveAmount(0), moveSpeed(2.5), currentPage(0), previousKeyState(0), enabled(true)
 {
 	InitializeTitle();
 	InitializePages();
-
-	PlayAnimation();
 }
 
 MainMenu::~MainMenu()
 {
-	for (size_t i = 0; i < titleLetters.size(); i++)
-		delete titleLetters[i];
-
 	for (size_t i = 0; i < pages.size(); i++)
 		delete pages[i];
-}
-
-void MainMenu::PlayAnimation()
-{
-	if (isAnimPlaying)
-		return;
-
-	isAnimPlaying = true;
-	moveAmount = 200;
-
-	Vector2 move = Vector2(0, moveAmount);
-	for (size_t i = 0; i < titleLetters.size(); i++)
-		(titleLetters[i])->Translate(move);
-}
-
-void MainMenu::StopAnimation()
-{
-	if (!isAnimPlaying)
-		return;
-
-	if (moveAmount < 0)
-		moveAmount = 0;
-
-	Vector2 move = Vector2(0, -moveAmount);
-	for (size_t i = 0; i < titleLetters.size(); i++)
-		(titleLetters[i])->Translate(move);
-
-	isAnimPlaying = false;
-	moveAmount = 0;
-
-	for (size_t i = 0; i < pages.size(); i++)
-		pages[i]->Enable(false);
-
-	pages[0]->Enable(true);
-}
-
-void MainMenu::TickMenuAnim()
-{
-	if (moveAmount <= 0)
-	{
-		StopAnimation();
-		return;
-	}
-
-	moveAmount -= moveSpeed;
-
-	Vector2 move = Vector2(0, -moveSpeed);
-	for (size_t i = 0; i < titleLetters.size(); i++)
-		(titleLetters[i])->Translate(move);
 }
 
 void MainMenu::Enable(bool var)
@@ -264,8 +169,7 @@ void MainMenu::Enable(bool var)
 
 	enabled = var;
 
-	for (size_t i = 0; i < titleLetters.size(); i++)
-		titleLetters[i]->Enable(enabled);
+	title.Enable(var);
 
 	for (size_t i = 0; i < pages.size(); i++)
 		pages[i]->Enable(enabled);
@@ -273,19 +177,6 @@ void MainMenu::Enable(bool var)
 
 void MainMenu::Tick()
 {
-	if (isAnimPlaying)
-	{
-		if (GetAsyncKeyState(VK_SPACE))
-		{
-			previousSpaceState = 1;
-			StopAnimation();
-			return;
-		}
-
-		TickMenuAnim();
-		return;
-	}
-
 	if (GetAsyncKeyState('W') || GetAsyncKeyState(VK_UP))
 	{
 		if(previousKeyState != 1)

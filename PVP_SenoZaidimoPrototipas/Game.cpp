@@ -15,6 +15,8 @@ Game::Game()
 	paused = false;
 	pressedPause = false;
 	gameQuit = false;
+	hasInitialized = false;
+	loopStarted = false;
 
 	if (singleton == nullptr)
 	{
@@ -42,7 +44,7 @@ void Game::Initialize()
 	// Sukuriam langa
 	Vector2 mainRes = GAME_BASE_RESOLUTION;
 
-	gameWindow = SDL_CreateWindow("Battle city",
+	gameWindow = SDL_CreateWindow("Seno zaidimo prototipas - platformeris",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		(int)(mainRes.x * ResScale.x), (int)(mainRes.y * ResScale.y),
 		SDL_WINDOW_SHOWN);

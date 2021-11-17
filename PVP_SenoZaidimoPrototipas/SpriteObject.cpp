@@ -1,4 +1,5 @@
 #include <SpriteObject.h>
+#include <Rendering.h>
 
 vector<SpriteObject*> SpriteObject::allObjects = vector<SpriteObject*>();
 unordered_map<int, vector<SpriteObject*>> SpriteObject::objectLayers = unordered_map<int, vector<SpriteObject*>>();
@@ -88,11 +89,10 @@ void SpriteObject::UpdateRenderData(Vector2 worldScale)
 	renderData.h = (int)(sprite.GetTextureHeight() * worldScale.y * scale.y);
 }
 
-const Vector2 PAKEISTIMANE_CIA_GLOBAL_RENDERING_SCALE = Vector2(1.,1.);
 void SpriteObject::OnPositionChange() // override Transform
 {
 	Transform::Tick();
-	UpdateRenderData(PAKEISTIMANE_CIA_GLOBAL_RENDERING_SCALE);
+	UpdateRenderData(Rendering::GetReference()->GetRenderScale());
 }
 
 SDL_Rect* SpriteObject::GetRenderData()
