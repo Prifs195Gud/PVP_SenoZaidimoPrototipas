@@ -16,8 +16,8 @@ enum class LayerType
 	Background = -1,
 	Default = 0,
 	MapTiles = 1,
-	Overlay = 3,
-	Debug = 4
+	Overlay = 2,
+	Debug = 3
 };
 
 // Klase skirta, kad butent galetum jau atvaizduoti objekta, ji judinti ar kitaip manipuliuoti
