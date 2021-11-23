@@ -3,6 +3,7 @@
 
 #include <Rendering.h>
 #include <Vectors.h>
+#include <CoinBlock.h>
 
 Game* Game::singleton = nullptr;
 
@@ -62,6 +63,9 @@ void Game::Initialize()
 	// Zaidejo UI
 	playerHud = PlayerHUD::GetReference();
 
+	//Testavimas
+	CoinBlock *coinblock=new CoinBlock();
+	coinblock->SetPosition(Vector2(128,120));
 	StartMainLoop();
 }
 
