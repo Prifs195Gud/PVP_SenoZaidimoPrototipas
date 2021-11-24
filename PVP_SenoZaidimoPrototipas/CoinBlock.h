@@ -14,6 +14,7 @@ private:
 	int trigger_delay;
 	int trigger_cooldown;
 	Animation coinblockAnim;
-
-
+	SpriteObject coinObject;
+	Vector2 positionoffset;
+	int coin_max_up;
 };	
