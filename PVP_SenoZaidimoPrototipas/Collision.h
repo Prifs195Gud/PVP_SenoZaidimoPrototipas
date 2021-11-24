@@ -7,7 +7,8 @@ using namespace std;
 enum class FinalObjectType
 {
 	None = 0,
-	MapTile
+	MapTile,
+	Player
 };
 
 class CollidableSpriteObject : public SpriteObject
@@ -19,7 +20,7 @@ public:
 
 	~CollidableSpriteObject();
 
-	virtual void CheckCollision();
+	virtual void CheckCollision(CollidableSpriteObject* objectOfInterest);
 	virtual bool IsStatic();
 	virtual bool IsTrigger();
 
@@ -27,6 +28,7 @@ public:
 
 	void Tick() override;
 	void OnPositionChange() override;
+	void OnRenderDataChange() override;
 
 	virtual void OnCollision(CollidableSpriteObject* collision);
 
@@ -41,7 +43,6 @@ protected:
 	SDL_Rect localCollisionRect, globalCollisionRect;
 	bool IsOutOfBounds();
 	static vector<CollidableSpriteObject*> allCollidables;
-	Vector2 velocity;
 private:
 	virtual bool CheckGameBounds();
 
@@ -59,7 +60,7 @@ public:
 
 	~StaticCollidable();
 
-	void CheckCollision() override;
+	void CheckCollision(CollidableSpriteObject* objectOfInterest) override;
 	bool IsStatic() override;
 private:
 };
@@ -74,7 +75,7 @@ public:
 	~TriggerCollidable();
 
 	bool IsTrigger() override;
-	void CheckCollision() override;
+	void CheckCollision(CollidableSpriteObject* objectOfInterest) override;
 private:
 	bool CorrectIntersection(CollidableSpriteObject* obj) override;
 	bool CheckGameBounds() override;

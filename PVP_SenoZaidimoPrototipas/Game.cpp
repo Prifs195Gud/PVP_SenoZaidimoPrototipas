@@ -3,6 +3,8 @@
 #include <GameMap.h>
 #include <Rendering.h>
 #include <Vectors.h>
+#include <Player.h>
+#include <algorithm>    // std::sort
 
 Game* Game::singleton = nullptr;
 
@@ -84,10 +86,13 @@ void Game::StartNewGame()
 void Game::LoadLevel(int world, int level)
 {
 	GameMap::GetReference()->LoadMap(world, level);
+	SpawnPlayer();
 }
 
 void Game::SpawnPlayer()
 {
+	Player* player = new Player();
+	player->SetPosition(Vector2(128, 120));
 }
 
 void Game::TickMainMenu()
@@ -96,8 +101,64 @@ void Game::TickMainMenu()
 	TickTickables();
 }
 
+bool CompareXPos(CollidableSpriteObject* a, CollidableSpriteObject* b)
+{
+	return a->GetPosition().x < b->GetPosition().x;
+}
+
+bool IntersectsX(CollidableSpriteObject* A, CollidableSpriteObject* B)
+{
+	SDL_Rect a = *A->GetLocalCollisionRect();
+	SDL_Rect b = *B->GetLocalCollisionRect();
+
+	return abs(a.x - b.x) * 2 < (a.w + b.w);
+}
+
+const int gridSize = 64;
 void Game::TickCollision()
 {
+	vector<CollidableSpriteObject*>* colls = CollidableSpriteObject::GetAllCollidables();
+
+	unordered_map<int, vector<CollidableSpriteObject*>> gridX;
+
+	for (size_t i = 0; i < colls->size(); i++)
+	{
+		CollidableSpriteObject* coll = colls->at(i);
+		int low = (int)coll->GetPosition().x - coll->GetTextureData()->w / 2 - 1;
+		int high = (int)coll->GetPosition().x + coll->GetTextureData()->w / 2 + 1;
+
+		low /= gridSize;
+		high /= gridSize;
+
+		if(low == high)
+			gridX[low].push_back(colls->at(i));
+		else
+		{
+			gridX[low].push_back(colls->at(i));
+			gridX[high].push_back(colls->at(i));
+		}
+	}
+
+	unordered_map<int, vector<CollidableSpriteObject*>>::iterator it = gridX.begin();
+
+	while (it != gridX.end())
+	{
+		vector<CollidableSpriteObject*>* temp = &(*it).second;
+
+		for (size_t i = 0; i < temp->size(); i++)
+			for (size_t j = i + 1; j < temp->size(); j++)
+			{
+				CollidableSpriteObject* a = temp->at(i);
+				CollidableSpriteObject* b = temp->at(j);
+
+				if(!a->IsStatic())
+					a->CheckCollision(b);
+				else if(!b->IsStatic())
+					b->CheckCollision(a);
+			}
+
+		it++;
+	}
 }
 
 void Game::TickTickables()

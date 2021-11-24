@@ -27,7 +27,7 @@ bool CollidableSpriteObject::IsOutOfBounds()
 
 FinalObjectType CollidableSpriteObject::GetFinalObjectType()
 {
-	return FinalObjectType::None;
+	return FinalObjectType::Player;
 }
 
 void CollidableSpriteObject::Initialize()
@@ -43,7 +43,7 @@ void CollidableSpriteObject::Initialize()
 	UpdateGlobalCollisionRect();
 }
 
-CollidableSpriteObject::CollidableSpriteObject()
+CollidableSpriteObject::CollidableSpriteObject() : SpriteObject()
 {
 	Initialize();
 }
@@ -63,16 +63,12 @@ CollidableSpriteObject::~CollidableSpriteObject()
 	allCollidables.erase(remove(allCollidables.begin(), allCollidables.end(), this));
 }
 
-void CollidableSpriteObject::CheckCollision()
+void CollidableSpriteObject::CheckCollision(CollidableSpriteObject* objectOfInterest)
 {
-	if (!IsEnabled())
+	if (!IsEnabled() || !objectOfInterest->IsEnabled())
 		return;
 
-	CheckGameBounds();
-
-	for (size_t i = 0; i < allCollidables.size(); i++)
-		if (allCollidables[i]->IsEnabled())
-			CorrectIntersection(allCollidables[i]);
+	CorrectIntersection(objectOfInterest);
 }
 
 bool CollidableSpriteObject::IsStatic()
@@ -107,10 +103,19 @@ void CollidableSpriteObject::OnPositionChange() // override SpriteObject
 	UpdateGlobalCollisionRect();
 }
 
+void CollidableSpriteObject::OnRenderDataChange() // override SpriteObject
+{
+	SpriteObject::OnRenderDataChange();
+
+	localCollisionRect = *sprite.GetTextureData();
+	localCollisionRect.x = 0;
+	localCollisionRect.y = 0;
+	UpdateGlobalCollisionRect();
+}
+
 void CollidableSpriteObject::Tick() // override SpriteObject
 {
 	SpriteObject::Tick();
-	Translate(velocity); // Move object
 }
 
 void CollidableSpriteObject::OnCollision(CollidableSpriteObject* collision)
@@ -141,7 +146,8 @@ SDL_Rect* CollidableSpriteObject::GetLocalCollisionRect()
 	return &localCollisionRect;
 }
 
-bool HasIntersection(SDL_Rect* a, SDL_Rect* b) {
+bool HasIntersection(SDL_Rect* a, SDL_Rect* b)
+{
 	return (abs(a->x - b->x) * 2 < (a->w + b->w)) &&
 		(abs(a->y - b->y) * 2 < (a->h + b->h));
 }
@@ -163,8 +169,17 @@ bool CollidableSpriteObject::CorrectIntersection(CollidableSpriteObject* obj)
 
 	if (obj->IsStatic())
 	{
-		Translate(-velocity);
-		velocity = Vector2::zero;
+		Vector2 objToMe = position -obj->GetPosition();
+		if (objToMe.VectorAngle(Vector2::down) * Rad2Deg < 50.)
+		{
+			Translate(Vector2(0, -velocity.y));
+			velocity.y = 0;
+		}
+		else
+		{
+			Translate(Vector2(-velocity.x, 0));
+			velocity.x = 0;
+		}
 	}
 	else
 	{
@@ -204,7 +219,7 @@ StaticCollidable::~StaticCollidable()
 {
 }
 
-void StaticCollidable::CheckCollision()
+void StaticCollidable::CheckCollision(CollidableSpriteObject* objectOfInterest) // override CollidableSpriteObject
 {
 }
 
@@ -236,7 +251,7 @@ TriggerCollidable::~TriggerCollidable()
 {
 }
 
-void TriggerCollidable::CheckCollision()
+void TriggerCollidable::CheckCollision(CollidableSpriteObject* objectOfInterest) // override CollidableSpriteObject
 {
 	bool collided;
 	CollidableSpriteObject* lastCollision = nullptr;

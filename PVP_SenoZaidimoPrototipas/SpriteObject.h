@@ -58,7 +58,9 @@ public:
 	SDL_Rect* GetRenderData();
 
 	void UpdateRenderData(Vector2 worldScale);
+	virtual void OnRenderDataChange();
 
+	void Tick() override;
 	void OnPositionChange() override;
 
 	void SetSprite(Sprite SPRITE);

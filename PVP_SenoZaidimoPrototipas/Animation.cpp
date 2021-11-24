@@ -54,7 +54,7 @@ void Animation::Tick() // override Transform
 {
 	Transform::Tick();
 
-	if (!myShowObject.IsEnabled())
+	if (!myShowObject.IsEnabled() || animFrames.size() == 0)
 		return;
 
 	tickCount++;

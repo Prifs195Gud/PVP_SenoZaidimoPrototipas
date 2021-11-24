@@ -87,11 +87,21 @@ void SpriteObject::UpdateRenderData(Vector2 worldScale)
 
 	renderData.w = (int)(sprite.GetTextureWidth() * worldScale.x * scale.x);
 	renderData.h = (int)(sprite.GetTextureHeight() * worldScale.y * scale.y);
+
+	OnRenderDataChange();
+}
+
+void SpriteObject::OnRenderDataChange()
+{
+}
+
+void SpriteObject::Tick() // override Transform
+{
+	Transform::Tick();
 }
 
 void SpriteObject::OnPositionChange() // override Transform
 {
-	Transform::Tick();
 	UpdateRenderData(Rendering::GetReference()->GetRenderScale());
 }
 
@@ -103,7 +113,7 @@ SDL_Rect* SpriteObject::GetRenderData()
 void SpriteObject::SetSprite(Sprite SPRITE)
 {
 	sprite = SPRITE;
-	OnPositionChange();
+	UpdateRenderData(Rendering::GetReference()->GetRenderScale());
 }
 
 void SpriteObject::SetLayer(LayerType newLayer)

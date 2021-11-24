@@ -31,6 +31,11 @@ void Transform::OnPositionChange()
 void Transform::Tick() // override Tickable
 {
 	Tickable::Tick();
+	
+	if(velocity == Vector2::zero)
+		return;
+
+	Translate(velocity);
 }
 
 void Transform::Translate(Vector2 vec)

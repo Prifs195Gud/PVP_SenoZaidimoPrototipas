@@ -34,6 +34,11 @@ MapTile::~MapTile()
 {
 }
 
+FinalObjectType MapTile::GetFinalObjectType()
+{
+	return FinalObjectType::MapTile;
+}
+
 /*FinalObjectType MapTile::GetFinalObjectType() // override StaticCollidable
 {
 	return FinalObjectType::MapTile;

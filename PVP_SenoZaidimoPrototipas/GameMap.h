@@ -23,7 +23,8 @@ public:
 	MapTile(Sprite sprite, MapTileType tileType);
 	~MapTile();
 
-	//FinalObjectType GetFinalObjectType() override;
+	FinalObjectType GetFinalObjectType() override;
+
 	MapTileType GetMapTileType();
 private:
 	MapTileType mapTileType;
