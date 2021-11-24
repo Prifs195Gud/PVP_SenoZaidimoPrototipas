@@ -62,4 +62,6 @@ public:
 	void OnPositionChange() override;
 
 	void SetSprite(Sprite SPRITE);
+	void SetLayer(LayerType newLayer);
+	void SetLayer(int newLayer);
 };

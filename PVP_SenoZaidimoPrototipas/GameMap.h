@@ -19,6 +19,7 @@ enum class MapTileType
 class MapTile : public StaticCollidable
 {
 public:
+	MapTile(MapTileType tileType);
 	MapTile(Sprite sprite, MapTileType tileType);
 	~MapTile();
 
@@ -45,6 +46,5 @@ private:
 
 	vector<MapTile*> MapTiles;
 
-	void AddNewTile(char* tileRead, int posX, int posY, vector<Sprite>* tiles);
-	void ReadMapLine(string* line, int posY, vector<Sprite>* tiles);
+	void ReadMapLine(string* line);
 };

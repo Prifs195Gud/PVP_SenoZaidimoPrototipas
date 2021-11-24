@@ -14,6 +14,7 @@ public:
 
 	Sprite();
 	Sprite(SDL_Rect data);
+	Sprite(int posX, int posY, int width, int height);
 	Sprite(Vector2 texturePosition, int Width, int Height);
 	Sprite(Vector2 texturePosition, Vector2 widthHeight);
 

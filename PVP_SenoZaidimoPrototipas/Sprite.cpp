@@ -9,10 +9,22 @@ Sprite::Sprite()
 	rect.h = 1;
 	textureData = rect;
 }
+
 Sprite::Sprite(SDL_Rect data)
 {
 	textureData = data;
 }
+
+Sprite::Sprite(int posX, int posY, int width, int height)
+{
+	SDL_Rect rect;
+	rect.x = posX;
+	rect.y = posY;
+	rect.w = width;
+	rect.h = height;
+	textureData = rect;
+}
+
 Sprite::Sprite(Vector2 texturePosition, int width, int height)
 {
 	SDL_Rect rect;

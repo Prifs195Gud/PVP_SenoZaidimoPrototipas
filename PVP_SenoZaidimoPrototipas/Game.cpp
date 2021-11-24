@@ -1,6 +1,6 @@
 #include <Game.h>
 #include <Windows.h> // GetAsyncKeyState
-
+#include <GameMap.h>
 #include <Rendering.h>
 #include <Vectors.h>
 
@@ -78,11 +78,12 @@ void Game::StartNewGame()
 	currentGameState = GameState::InGame;
 	mainMenu.Enable(false);
 
-	LoadLevel(0);
+	LoadLevel(1,1);
 }
 
-void Game::LoadLevel(int lvl)
+void Game::LoadLevel(int world, int level)
 {
+	GameMap::GetReference()->LoadMap(world, level);
 }
 
 void Game::SpawnPlayer()

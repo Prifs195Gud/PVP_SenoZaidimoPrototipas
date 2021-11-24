@@ -43,6 +43,6 @@ private:
 	void StartMainLoop();
 	void MainLoop();
 
-	void LoadLevel(int lvl);
+	void LoadLevel(int world, int level);
 	void SpawnPlayer();
 };

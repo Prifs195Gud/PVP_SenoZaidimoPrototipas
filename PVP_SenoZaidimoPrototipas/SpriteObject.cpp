@@ -105,3 +105,17 @@ void SpriteObject::SetSprite(Sprite SPRITE)
 	sprite = SPRITE;
 	OnPositionChange();
 }
+
+void SpriteObject::SetLayer(LayerType newLayer)
+{
+	SetLayer((int)newLayer);
+}
+
+void SpriteObject::SetLayer(int newLayer)
+{
+	vector<SpriteObject*>* myLayer = &objectLayers[layer];
+	myLayer->erase(remove(myLayer->begin(), myLayer->end(), this));
+
+	layer = newLayer;
+	objectLayers[layer].push_back(this);
+}

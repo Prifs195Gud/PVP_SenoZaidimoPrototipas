@@ -1,9 +1,32 @@
 #include <GameMap.h>
 #include <Windows.h>
 #include <fstream>
+#include <sstream>
 #include <Rendering.h>
+#include <filesystem>
 
-MapTile::MapTile(Sprite sprite, MapTileType tileType)// : StaticCollidable(sprite, layerType::MapTiles), mapTileType(tileType)
+MapTile::MapTile(MapTileType tileType)
+{
+	mapTileType = tileType;
+
+	switch (mapTileType)
+	{
+	case MapTileType::Ground:
+		SetSprite(Sprite(0, 67, 16, 16));
+		SetLayer(LayerType::MapTiles);
+		break;
+	case MapTileType::Brick:
+		break;
+	case MapTileType::Empty:
+		break;
+	case MapTileType::CoinBlock:
+		break;
+	default:
+		break;
+	}
+}
+
+MapTile::MapTile(Sprite sprite, MapTileType tileType) : StaticCollidable(sprite, (int)LayerType::MapTiles), mapTileType(tileType)
 {
 }
 
@@ -51,37 +74,78 @@ std::vector<MapTile*>* GameMap::GetMapTiles()
 	return &MapTiles;
 }
 
-void GameMap::AddNewTile(char* tileRead, int posX, int posY, vector<Sprite>* tiles)
+std::vector<std::string> split(const std::string& s, char delimiter)
 {
-	int whichTile = (int)(*tileRead - '0');
-
-	if (whichTile == 0 || whichTile >= tiles->size())
-		return;
-
-	MapTile* newTile = new MapTile(tiles->at(whichTile), (MapTileType)(whichTile - 1));
-	newTile->SetPosition(Vector2(posX * 8. + 20., posY * 8. + 12.));
-
-	//Debug::GetReference()->DebugCollision(foo);
-
-	MapTiles.push_back(newTile);
+	std::vector<std::string> tokens;
+	std::string token;
+	std::istringstream tokenStream(s);
+	while (std::getline(tokenStream, token, delimiter))
+	{
+		tokens.push_back(token);
+	}
+	return tokens;
 }
 
-void GameMap::ReadMapLine(string* line, int posY, vector<Sprite>* tiles)
+void GameMap::ReadMapLine(string* line)
 {
-	for (int x = 0; x < line->size(); x++)
-		AddNewTile(&line->at(x), x, posY, tiles);
+	vector<string> data = split(line->c_str(), ' ');
+
+	if (data.size() == 0)
+		return;
+
+	if(data[0].size() > 0)
+		data[0].pop_back();
+
+	if (data[0] == "BLOCKS")
+	{
+		if (data.size() <= 2)
+			return;
+
+		int posX = stoi(data[1]) + 8;
+		int amount = stoi(data[2]);
+
+		for (size_t i = 0; i < amount; i++)
+		{
+			MapTile* newTile = new MapTile(MapTileType::Ground);
+			newTile->SetPosition(Vector2(posX + i * 16, 216));
+			MapTiles.push_back(newTile);
+		}
+
+		for (size_t i = 0; i < amount; i++)
+		{
+			MapTile* newTile = new MapTile(MapTileType::Ground);
+			newTile->SetPosition(Vector2(posX + i * 16, 232));
+			MapTiles.push_back(newTile);
+		}
+	}
+	else
+		return;
+
+	//Debug::GetReference()->DebugCollision(foo);
 }
 
 void GameMap::LoadMap(int world, int level)
 {
 	vector<string> dataLines;
 
-	ifstream Read ("Levels/" + to_string(world) + to_string(level) + ".txt");
+	string path = "Lygiai\\" + to_string(world) + to_string(level) + ".txt";
 
-	for (;;)
+	//string path = to_string(world) + to_string(level) + ".txt";
+
+	ifstream Read (path);
+
+	/*if (!Read.is_open())
+	{
+		path = "..\\..\\" + path;
+		Read = ifstream(path);
+	}*/
+
+	bool DEBUG_ISOPEN = Read.is_open();
+
+	while (!Read.eof())
 	{
 		string a; 
-		Read >> a;
+		getline(Read, a);
 
 		if (a == "") break;
 
@@ -90,10 +154,8 @@ void GameMap::LoadMap(int world, int level)
 
 	Read.close();
 
-	//vector<Sprite>* tiles = Rendering::GetReference()->GetMapPrefabTiles();
-
-	/*for (int y = 0; y < dataLines.size(); y++)
-		ReadMapLine(&dataLines[y], y, tiles);*/
+	for (int y = 0; y < dataLines.size(); y++)
+		ReadMapLine(&dataLines[y]);
 }
 
 void GameMap::ClearMap()
