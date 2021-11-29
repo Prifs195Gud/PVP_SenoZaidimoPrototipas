@@ -8,19 +8,19 @@
 MapTile::MapTile(MapTileType tileType)
 {
 	mapTileType = tileType;
+	SetLayer(LayerType::MapTiles);
 
 	switch (mapTileType)
 	{
 	case MapTileType::Ground:
 		SetSprite(Sprite(0, 67, 16, 16));
-		SetLayer(LayerType::MapTiles);
 		break;
 	case MapTileType::Brick:
 		break;
-	case MapTileType::Empty:
-		break;
 	case MapTileType::CoinBlock:
 		break;
+
+	case MapTileType::Empty:
 	default:
 		break;
 	}

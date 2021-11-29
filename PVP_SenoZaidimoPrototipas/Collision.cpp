@@ -32,6 +32,7 @@ FinalObjectType CollidableSpriteObject::GetFinalObjectType()
 
 void CollidableSpriteObject::Initialize()
 {
+	collisionEnabled = true;
 	allCollidables.push_back(this);
 
 	localCollisionRect = *sprite.GetTextureData();
@@ -65,7 +66,7 @@ CollidableSpriteObject::~CollidableSpriteObject()
 
 void CollidableSpriteObject::CheckCollision(CollidableSpriteObject* objectOfInterest)
 {
-	if (!IsEnabled() || !objectOfInterest->IsEnabled())
+	if (!IsCollisionEnabled() || !objectOfInterest->IsCollisionEnabled())
 		return;
 
 	CorrectIntersection(objectOfInterest);
@@ -134,6 +135,16 @@ void CollidableSpriteObject::SetCollisionBounds(Vector2 vec)
 	localCollisionRect.w = (int)vec.x;
 	localCollisionRect.h = (int)vec.y;
 	UpdateGlobalCollisionRect();
+}
+
+void CollidableSpriteObject::EnableCollision(bool var)
+{
+	collisionEnabled = var;
+}
+
+bool CollidableSpriteObject::IsCollisionEnabled()
+{
+	return collisionEnabled;
 }
 
 SDL_Rect* CollidableSpriteObject::GetCollisionRect()

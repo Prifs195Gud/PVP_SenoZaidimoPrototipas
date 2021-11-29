@@ -6,11 +6,21 @@ Player* Player::player = nullptr;
 void Player::Initialize()
 {
 	facingRight = true;
-	playerMaxSpeed = 1.5;
-	playerAcceleration = 1.0f;
+	onGround = false;
+	jumping = false;
 
-	idleRight = Sprite(1, 50,16,16);
-	idleLeft = idleRight;
+	jumpRemaining = 0;
+	jumpExhaustionRate = 0.1;
+
+	playerMaxSpeed = 3;
+	playerAcceleration = 0.5f;
+
+	idleRight = Sprite(1, 50, 16,16);
+	idleLeft = Sprite(1, 253, 16, 16);
+
+	jumpRight = Sprite(86, 50, 16, 16);
+	jumpLeft = Sprite(86, 253, 16, 16);
+
 
 	vector<Sprite> runRightFrames;
 
@@ -19,6 +29,16 @@ void Player::Initialize()
 
 	runRight.LoadAnimFrames(runRightFrames);
 	runRight.EnableRendering(false);
+
+
+	vector<Sprite> runLeftFrames;
+
+	for (int i = 0; i < 3; i++)
+		runLeftFrames.push_back(Sprite(18 + i * 17, 253, 16, 16));
+
+	runLeft.LoadAnimFrames(runLeftFrames);
+	runLeft.EnableRendering(false);
+
 
 	SetSprite(idleRight);
 	Enable(true);
@@ -49,11 +69,40 @@ void Player::OnPositionChange() // override CollidableSpriteObject
 	runLeft.SetPosition(position);
 }
 
+void Player::OnCollision(CollidableSpriteObject* collision) // override CollidableSpriteObject
+{
+	CollidableSpriteObject::OnCollision(collision);
+
+	if (collision == nullptr)
+		return;
+
+	FinalObjectType type = collision->GetFinalObjectType();
+	Vector2 objToMe;
+
+	switch (type)
+	{
+	case FinalObjectType::MapTile:
+
+		objToMe = position - collision->GetPosition();
+		if (objToMe.VectorAngle(Vector2::down) * Rad2Deg < 50.)
+			onGround = true;
+		break;
+
+	case FinalObjectType::Player:
+		break;
+
+	case FinalObjectType::None:
+	default:
+		break;
+	}
+}
+
 void Player::GoDirection(Vector2 direction)
 {
 	if (direction.x > 0.1f)
 	{
 		facingRight = true;
+		SetSprite(idleRight);
 		Vector2 newVelocity = velocity + Vector2::right * playerAcceleration;
 		if (newVelocity.x > playerMaxSpeed)
 			newVelocity.x = playerMaxSpeed;
@@ -62,6 +111,7 @@ void Player::GoDirection(Vector2 direction)
 	else if (direction.x < -0.1f)
 	{
 		facingRight = false;
+		SetSprite(idleLeft);
 		Vector2 newVelocity = velocity + Vector2::left * playerAcceleration;
 		if (newVelocity.x < -playerMaxSpeed)
 			newVelocity.x = -playerMaxSpeed;
@@ -71,6 +121,28 @@ void Player::GoDirection(Vector2 direction)
 
 void Player::Jump()
 {
+	if (jumping)
+	{
+		if (jumpRemaining > jumpExhaustionRate)
+		{
+			velocity.y -= jumpExhaustionRate;
+			jumpRemaining -= jumpExhaustionRate;
+		}
+		else
+		{
+			velocity.y -= jumpRemaining;
+			jumpRemaining = 0;
+			jumping = false;
+		}
+	}
+
+	if (!onGround)
+		return;
+
+	onGround = false;
+	jumping = true;
+	jumpRemaining = 10;
+	velocity.y -= 5;
 }
 
 void Player::Crouch()
@@ -81,19 +153,49 @@ void Player::Fire()
 {
 }
 
-const float terminalVelocity = 2;
+void Player::RunAnimation()
+{
+	if (abs(velocity.x) < 0.1)
+	{
+		Enable(true);
+		runRight.EnableRendering(false);
+		runLeft.EnableRendering(false);
+
+		if (facingRight)
+			SetSprite(idleRight);
+		else
+			SetSprite(idleLeft);
+	}
+	else
+	{
+		Enable(false);
+		runRight.EnableRendering(facingRight);
+		runLeft.EnableRendering(!facingRight);
+
+		Animation* runAnim;
+
+		if (facingRight)
+			runAnim = &runRight;
+		else
+			runAnim = &runLeft;
+
+		float ratio = abs(velocity.x) / playerMaxSpeed;
+		ratio = 1 - ratio;
+		ratio = ratio * 5.0f + 1.5f;
+
+		runAnim->SetAnimSpeed(ratio);
+	}
+}
+
+const float terminalVelocity = 3;
 void Player::Tick() // override CollidableSpriteObject
 {
-	if (velocity.y <= terminalVelocity)
-	{
-		velocity.y += 0.16;
-		if (velocity.y > terminalVelocity)
-			velocity.y = terminalVelocity;
-	}
-
 	if (GetAsyncKeyState(keymap.up))
 		Jump();
-	else if (GetAsyncKeyState(keymap.down))
+	else
+		jumping = false;
+
+	if (GetAsyncKeyState(keymap.down))
 		Crouch();
 
 	if (GetAsyncKeyState(keymap.right))
@@ -102,6 +204,27 @@ void Player::Tick() // override CollidableSpriteObject
 		GoDirection(Vector2(-1, 0));
 	else
 		velocity.x *= 0.8;
+
+	if (velocity.y <= terminalVelocity)
+	{
+		velocity.y += 0.3;
+		if (velocity.y > terminalVelocity)
+			velocity.y = terminalVelocity;
+	}
+
+	if(!jumping && onGround)
+		RunAnimation();
+	else
+	{
+		Enable(true);
+		runRight.EnableRendering(false);
+		runLeft.EnableRendering(false);
+
+		if (facingRight)
+			SetSprite(jumpRight);
+		else
+			SetSprite(jumpLeft);
+	}
 
 	if (GetAsyncKeyState(keymap.fire))
 		Fire();

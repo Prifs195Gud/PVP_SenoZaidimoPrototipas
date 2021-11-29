@@ -24,27 +24,30 @@ public:
 	~Player();
 
 	void OnPositionChange() override;
+	void OnCollision(CollidableSpriteObject* collision) override;
 	void Tick() override;
 	FinalObjectType GetFinalObjectType() override;
 
 	static Player* GetPlayer();
 private:
-	bool initialized;
+	bool initialized, onGround, jumping;
 	void Initialize();
 
 	void GoDirection(Vector2 direction);
 	void Jump();
 	void Crouch();
 	void Fire();
+	void RunAnimation();
 
 	static Player* player;
 
 	PlayerControllerKeymapping keymap;
 
 	float playerMaxSpeed, playerAcceleration;
+	float jumpRemaining, jumpExhaustionRate;
 
 	bool facingRight;
 
 	Animation runRight, runLeft;
-	Sprite idleRight, idleLeft;
+	Sprite idleRight, idleLeft, jumpRight, jumpLeft;
 };

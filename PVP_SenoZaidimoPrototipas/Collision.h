@@ -35,6 +35,9 @@ public:
 	void SetCollisionOffset(Vector2 vec);
 	void SetCollisionBounds(Vector2 vec);
 
+	void EnableCollision(bool var);
+	bool IsCollisionEnabled();
+
 	virtual FinalObjectType GetFinalObjectType();
 
 	SDL_Rect* GetCollisionRect();
@@ -44,6 +47,8 @@ protected:
 	bool IsOutOfBounds();
 	static vector<CollidableSpriteObject*> allCollidables;
 private:
+	bool collisionEnabled;
+
 	virtual bool CheckGameBounds();
 
 	void Initialize();
