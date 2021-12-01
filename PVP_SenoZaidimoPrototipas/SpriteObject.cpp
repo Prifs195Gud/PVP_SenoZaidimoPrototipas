@@ -1,5 +1,6 @@
 #include <SpriteObject.h>
 #include <Rendering.h>
+#include <algorithm>
 
 vector<SpriteObject*> SpriteObject::allObjects = vector<SpriteObject*>();
 unordered_map<int, vector<SpriteObject*>> SpriteObject::objectLayers = unordered_map<int, vector<SpriteObject*>>();

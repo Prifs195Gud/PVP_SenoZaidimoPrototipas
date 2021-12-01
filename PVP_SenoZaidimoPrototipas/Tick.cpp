@@ -1,4 +1,5 @@
 #include <Tick.h>
+#include <algorithm>
 
 vector<Tickable*> Tickable::allTicks = vector<Tickable*>();
 

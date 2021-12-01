@@ -1,4 +1,5 @@
 #include <Animation.h>
+#include <algorithm>
 
 vector<Animation*> Animation::allAnimations = vector<Animation*>();
 

@@ -1,4 +1,4 @@
-
+#include <algorithm>
 #include <Collision.h>
 
 vector<CollidableSpriteObject*> CollidableSpriteObject::allCollidables = vector<CollidableSpriteObject*>();
