@@ -109,17 +109,17 @@ void GameMap::ReadMapLine(string* line)
 		int posX = stoi(data[1]) + 8;
 		int amount = stoi(data[2]);
 
-		for (size_t i = 0; i < amount; i++)
+		for (int i = 0; i < amount; i++)
 		{
 			MapTile* newTile = new MapTile(MapTileType::Ground);
-			newTile->SetPosition(Vector2(posX + i * 16, 216));
+			newTile->SetPosition(Vector2(posX + i * 16., 216));
 			MapTiles.push_back(newTile);
 		}
 
-		for (size_t i = 0; i < amount; i++)
+		for (int i = 0; i < amount; i++)
 		{
 			MapTile* newTile = new MapTile(MapTileType::Ground);
-			newTile->SetPosition(Vector2(posX + i * 16, 232));
+			newTile->SetPosition(Vector2(posX + i * 16., 232));
 			MapTiles.push_back(newTile);
 		}
 	}

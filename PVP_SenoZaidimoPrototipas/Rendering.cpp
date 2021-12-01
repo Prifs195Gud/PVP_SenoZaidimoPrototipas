@@ -1,7 +1,10 @@
+
 #include <Rendering.h>
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <GameCamera.h>
+#include <Game.h>
 
 Rendering* Rendering::singleton = nullptr;
 
@@ -13,6 +16,11 @@ void Rendering::DrawMapBackground()
 
 void Rendering::RenderAllObjects()
 {
+	GameCamera* gameCamera = GameCamera::GetReference();
+	Vector2 camOffset = gameCamera->GetPosition() - GAME_BASE_RESOLUTION * 0.5;
+	camOffset.x *= renderScale.x;
+	camOffset.y *= renderScale.y;
+
 	unordered_map<int, vector<SpriteObject*>>* layers = SpriteObject::GetAllLayers();
 	unordered_map<int, vector<SpriteObject*>>::iterator it = layers->begin();
 
@@ -23,8 +31,9 @@ void Rendering::RenderAllObjects()
 		for (size_t i = 0; i < layer.size(); i++)
 		{
 			SpriteObject* object = layer[i];
+			SDL_Rect objDataRect = object->GetRenderDataOffseted(camOffset);
 			if (object->IsEnabled())
-				SDL_RenderCopy(mainRenderer, tileset, object->GetTextureData(), object->GetRenderData());
+				SDL_RenderCopy(mainRenderer, tileset, object->GetTextureData(), &objDataRect);
 		}
 
 		it++;

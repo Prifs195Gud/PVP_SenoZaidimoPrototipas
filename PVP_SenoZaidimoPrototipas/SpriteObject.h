@@ -27,7 +27,7 @@ private:
 	static vector<SpriteObject*> allObjects;
 	static unordered_map<int, vector<SpriteObject*>> objectLayers;
 
-	bool renderingEnabled;
+	bool renderingEnabled, offsetStatic;
 	int layer;
 
 	void Initialize(int Layer);
@@ -56,6 +56,7 @@ public:
 
 	SDL_Rect* GetTextureData();
 	SDL_Rect* GetRenderData();
+	SDL_Rect GetRenderDataOffseted(Vector2 offset);
 
 	void UpdateRenderData(Vector2 worldScale);
 	virtual void OnRenderDataChange();
@@ -66,4 +67,7 @@ public:
 	void SetSprite(Sprite SPRITE);
 	void SetLayer(LayerType newLayer);
 	void SetLayer(int newLayer);
+
+	void SetOffsetStatic(bool var);
+	bool IsOffsetStatic();
 };

@@ -48,6 +48,12 @@ void Text::SetText(std::string text)
 	}
 }
 
+void Text::SetOffsetStatic(bool var)
+{
+	for (size_t i = 0; i < myLetters.size(); i++)
+		myLetters[i]->SetOffsetStatic(var);
+}
+
 void Text::SetPosition(Vector2 pos)
 {
 	Vector2 translationPos = pos - position;

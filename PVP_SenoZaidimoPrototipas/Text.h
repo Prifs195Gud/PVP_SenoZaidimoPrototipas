@@ -18,6 +18,7 @@ public:
 	~Text();
 
 	void SetText(std::string text);
+	void SetOffsetStatic(bool var);
 
 	void SetPosition(Vector2 pos);
 	Vector2 GetPosition();

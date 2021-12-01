@@ -77,6 +77,11 @@ void Animation::SetAnimSpeed(int maxAnimTickCount)
 	tickMax = abs(maxAnimTickCount);
 }
 
+void Animation::SetOffsetStatic(bool var)
+{
+	myShowObject.SetOffsetStatic(var);
+}
+
 void Animation::EnableRendering(bool var)
 {
 	myShowObject.Enable(var);

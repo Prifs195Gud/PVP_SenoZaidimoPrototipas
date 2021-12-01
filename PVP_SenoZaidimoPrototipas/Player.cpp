@@ -1,5 +1,6 @@
 #include <Player.h>
 #include <Collision.h>
+#include <GameCamera.h>
 
 Player* Player::player = nullptr;
 
@@ -10,10 +11,10 @@ void Player::Initialize()
 	jumping = false;
 
 	jumpRemaining = 0;
-	jumpExhaustionRate = 0.1;
+	jumpExhaustionRate = 0.2f;
 
 	playerMaxSpeed = 3;
-	playerAcceleration = 0.5f;
+	playerAcceleration = 0.4f;
 
 	idleRight = Sprite(1, 50, 16,16);
 	idleLeft = Sprite(1, 253, 16, 16);
@@ -64,6 +65,16 @@ Player::~Player()
 
 void Player::OnPositionChange() // override CollidableSpriteObject
 {
+	GameCamera* cam = GameCamera::GetReference();
+	Vector2 camPos = cam->GetPosition();
+	Vector2 extents = cam->GetCameraBounds() * 0.5;
+
+	if (position.x - 8 < camPos.x - extents.x)
+		position.x = camPos.x - extents.x + 8;
+
+	if (position.y > extents.y * 2 + 8)
+		position.y = -8;
+
 	CollidableSpriteObject::OnPositionChange();
 	runRight.SetPosition(position);
 	runLeft.SetPosition(position);
@@ -141,7 +152,7 @@ void Player::Jump()
 
 	onGround = false;
 	jumping = true;
-	jumpRemaining = 10;
+	jumpRemaining = 5;
 	velocity.y -= 5;
 }
 
@@ -179,15 +190,15 @@ void Player::RunAnimation()
 		else
 			runAnim = &runLeft;
 
-		float ratio = abs(velocity.x) / playerMaxSpeed;
+		double ratio = abs(velocity.x) / (double)playerMaxSpeed;
 		ratio = 1 - ratio;
-		ratio = ratio * 5.0f + 1.5f;
+		ratio = ratio * 5.0 + 1.5;
 
-		runAnim->SetAnimSpeed(ratio);
+		runAnim->SetAnimSpeed((int)ratio);
 	}
 }
 
-const float terminalVelocity = 3;
+const float terminalVelocity = 5;
 void Player::Tick() // override CollidableSpriteObject
 {
 	if (GetAsyncKeyState(keymap.up))

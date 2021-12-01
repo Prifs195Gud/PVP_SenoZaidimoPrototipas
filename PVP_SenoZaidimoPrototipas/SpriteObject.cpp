@@ -11,6 +11,7 @@ void SpriteObject::Initialize(int Layer)
 
 	renderingEnabled = true;
 	markedForDeletion = false;
+	offsetStatic = false;
 
 	scale = Vector2(1, 1);
 	position = Vector2(0, 0);
@@ -111,6 +112,19 @@ SDL_Rect* SpriteObject::GetRenderData()
 	return &renderData;
 }
 
+SDL_Rect SpriteObject::GetRenderDataOffseted(Vector2 offset)
+{
+	if (offsetStatic)
+		return renderData;
+
+	SDL_Rect newRect = SDL_Rect();
+	newRect.x = renderData.x - (int)offset.x;
+	newRect.y = renderData.y - (int)offset.y;
+	newRect.w = renderData.w;
+	newRect.h = renderData.h;
+	return newRect;
+}
+
 void SpriteObject::SetSprite(Sprite SPRITE)
 {
 	sprite = SPRITE;
@@ -129,4 +143,14 @@ void SpriteObject::SetLayer(int newLayer)
 
 	layer = newLayer;
 	objectLayers[layer].push_back(this);
+}
+
+void SpriteObject::SetOffsetStatic(bool var)
+{
+	offsetStatic = var;
+}
+
+bool SpriteObject::IsOffsetStatic()
+{
+	return offsetStatic;
 }

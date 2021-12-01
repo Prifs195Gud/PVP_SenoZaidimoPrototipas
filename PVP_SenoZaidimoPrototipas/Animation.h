@@ -20,6 +20,7 @@ public:
 	void Tick() override;
 
 	void SetAnimSpeed(int maxAnimTickCount);
+	void SetOffsetStatic(bool var);
 
 	void EnableRendering(bool var);
 

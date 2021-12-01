@@ -2,13 +2,10 @@
 #include <Windows.h> // GetAsyncKeyState
 #include <GameMap.h>
 #include <Rendering.h>
-#include <Vectors.h>
 #include <Player.h>
 #include <algorithm>    // std::sort
 
 Game* Game::singleton = nullptr;
-
-#define GAME_BASE_RESOLUTION Vector2(256,240)
 
 Game::Game()
 {
@@ -242,4 +239,9 @@ Game* Game::GetReference()
 		return new Game();
 
 	return singleton;
+}
+
+GameState Game::GetGameState()
+{
+	return currentGameState;
 }

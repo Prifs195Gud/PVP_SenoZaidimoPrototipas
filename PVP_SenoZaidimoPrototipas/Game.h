@@ -3,6 +3,9 @@
 #include <SDL.h>
 #include <MainMenu.h>
 #include <HUD.h>
+#include <Vectors.h>
+
+#define GAME_BASE_RESOLUTION Vector2(256,240)
 
 enum class GameState
 {
@@ -19,6 +22,7 @@ public:
 	void StartNewGame();
 
 	static Game* GetReference();
+	GameState GetGameState();
 
 	void QuitGame();
 
