@@ -1,6 +1,7 @@
 #include <Player.h>
 #include <Collision.h>
 #include <GameCamera.h>
+#include <Goomba.h>
 
 Player* Player::player = nullptr;
 
@@ -92,6 +93,8 @@ void Player::OnCollision(CollidableSpriteObject* collision) // override Collidab
 
 	switch (type)
 	{
+
+	case FinalObjectType::Player:
 	case FinalObjectType::MapTile:
 
 		objToMe = position - collision->GetPosition();
@@ -99,7 +102,19 @@ void Player::OnCollision(CollidableSpriteObject* collision) // override Collidab
 			onGround = true;
 		break;
 
-	case FinalObjectType::Player:
+	case FinalObjectType::Enemy:
+
+		objToMe = position - collision->GetPosition();
+		if (objToMe.VectorAngle(Vector2::down) * Rad2Deg < 45. && velocity.y > 0.5)
+		{
+			Goomba* goomba = (Goomba*)collision;
+			goomba->Remove();
+			onGround = false;
+			jumping = true;
+			jumpRemaining = 5;
+			velocity.y = -5;
+		}
+
 		break;
 
 	case FinalObjectType::None:

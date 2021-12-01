@@ -4,6 +4,7 @@
 #include <sstream>
 #include <Rendering.h>
 #include <filesystem>
+#include <Goomba.h>
 
 MapTile::MapTile(MapTileType tileType)
 {
@@ -122,6 +123,17 @@ void GameMap::ReadMapLine(string* line)
 			newTile->SetPosition(Vector2(posX + i * 16., 232));
 			MapTiles.push_back(newTile);
 		}
+	}
+	else if (data[0] == "GOOMBA")
+	{
+		if (data.size() <= 2)
+			return;
+
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+
+		Goomba* goomba = new Goomba();
+		goomba->SetPosition(Vector2(x, y));
 	}
 	else
 		return;

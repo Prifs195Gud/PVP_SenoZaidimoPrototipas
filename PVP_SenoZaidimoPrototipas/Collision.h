@@ -8,7 +8,8 @@ enum class FinalObjectType
 {
 	None = 0,
 	MapTile,
-	Player
+	Player,
+	Enemy
 };
 
 class CollidableSpriteObject : public SpriteObject

@@ -23,14 +23,14 @@ bool GameCamera::IsPointInView(Vector2 point)
 bool GameCamera::IsObjectInView(SpriteObject* trans)
 {
 	SDL_Rect a;
-	a.x = position.x;
-	a.y = position.y;
+	a.x = (int)position.x;
+	a.y = (int)position.y;
 	a.w = camWidth;
 	a.h = camHeight;
 
 	SDL_Rect b = *trans->GetTextureData();
-	b.x = trans->GetPosition().x;
-	b.y = trans->GetPosition().y;
+	b.x = (int)trans->GetPosition().x;
+	b.y = (int)trans->GetPosition().y;
 
 	return (abs(a.x - b.x) * 2 < (a.w + b.w)) &&
 		(abs(a.y - b.y) * 2 < (a.h + b.h));
