@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PVP_SenoZaidimoPrototipas", "PVP_SenoZaidimoPrototipas\PVP_SenoZaidimoPrototipas.vcxproj", "{BEACE22F-48E0-4EA1-B870-E96186FF3737}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest1", "UnitTest1\UnitTest1.vcxproj", "{40BCCFBD-850A-4F88-AE99-327DACE46E3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{BEACE22F-48E0-4EA1-B870-E96186FF3737}.Release|x64.Build.0 = Release|x64
 		{BEACE22F-48E0-4EA1-B870-E96186FF3737}.Release|x86.ActiveCfg = Release|Win32
 		{BEACE22F-48E0-4EA1-B870-E96186FF3737}.Release|x86.Build.0 = Release|Win32
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Debug|x64.ActiveCfg = Debug|x64
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Debug|x64.Build.0 = Debug|x64
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Debug|x86.ActiveCfg = Debug|Win32
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Debug|x86.Build.0 = Debug|Win32
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Release|x64.ActiveCfg = Release|x64
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Release|x64.Build.0 = Release|x64
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Release|x86.ActiveCfg = Release|Win32
+		{40BCCFBD-850A-4F88-AE99-327DACE46E3F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
