@@ -183,8 +183,19 @@ bool CollidableSpriteObject::CorrectIntersection(CollidableSpriteObject* obj)
 		Vector2 objToMe = position -obj->GetPosition();
 		if (objToMe.VectorAngle(Vector2::down) * Rad2Deg < 50.)
 		{
-			Translate(Vector2(0, -velocity.y));
-			velocity.y = 0;
+			if (velocity.y > 0)
+			{
+				Translate(Vector2(0, -velocity.y));
+				velocity.y = 0;
+			}
+		}
+		else if (objToMe.VectorAngle(Vector2::up) * Rad2Deg < 50.)
+		{
+			if (velocity.y < 0)
+			{
+				Translate(Vector2(0, -velocity.y));
+				velocity.y = 0;
+			}
 		}
 		else
 		{

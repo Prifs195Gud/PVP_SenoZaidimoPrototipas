@@ -22,7 +22,7 @@ bool GameCamera::IsPointInView(Vector2 point)
 
 bool GameCamera::IsObjectInView(SpriteObject* trans)
 {
-	SDL_Rect a;
+	SDL_Rect a = SDL_Rect();
 	a.x = (int)position.x;
 	a.y = (int)position.y;
 	a.w = camWidth;

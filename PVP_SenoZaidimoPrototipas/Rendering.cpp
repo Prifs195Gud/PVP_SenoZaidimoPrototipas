@@ -2,7 +2,7 @@
 #include <Rendering.h>
 #include <list>
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <GameCamera.h>
 #include <Game.h>
 
@@ -21,8 +21,8 @@ void Rendering::RenderAllObjects()
 	camOffset.x *= renderScale.x;
 	camOffset.y *= renderScale.y;
 
-	unordered_map<int, vector<SpriteObject*>>* layers = SpriteObject::GetAllLayers();
-	unordered_map<int, vector<SpriteObject*>>::iterator it = layers->begin();
+	map<int, vector<SpriteObject*>>* layers = SpriteObject::GetAllLayers();
+	map<int, vector<SpriteObject*>>::iterator it = layers->begin();
 
 	while (it != layers->end())
 	{

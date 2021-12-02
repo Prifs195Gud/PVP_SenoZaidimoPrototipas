@@ -4,7 +4,7 @@
 #include <Vectors.h>
 #include <Sprite.h>
 #include <list>
-#include <unordered_map>
+#include <map>
 #include <Transform.h>
 #include <Tick.h>
 
@@ -25,7 +25,7 @@ class SpriteObject : public Transform
 {
 private:
 	static vector<SpriteObject*> allObjects;
-	static unordered_map<int, vector<SpriteObject*>> objectLayers;
+	static map<int, vector<SpriteObject*>> objectLayers;
 
 	bool renderingEnabled, offsetStatic;
 	int layer;
@@ -46,7 +46,7 @@ public:
 	~SpriteObject();
 
 	static vector<SpriteObject*>* GetAllObjects();
-	static unordered_map<int, vector<SpriteObject*>>* GetAllLayers();
+	static map<int, vector<SpriteObject*>>* GetAllLayers();
 
 	void Enable(bool var);
 	bool IsEnabled();

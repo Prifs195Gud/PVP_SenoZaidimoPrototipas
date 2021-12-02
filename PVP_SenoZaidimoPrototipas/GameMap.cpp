@@ -5,6 +5,7 @@
 #include <Rendering.h>
 #include <filesystem>
 #include <Goomba.h>
+#include <CoinBlock.h>
 
 MapTile::MapTile(MapTileType tileType)
 {
@@ -35,15 +36,10 @@ MapTile::~MapTile()
 {
 }
 
-FinalObjectType MapTile::GetFinalObjectType()
+FinalObjectType MapTile::GetFinalObjectType() // override StaticCollidable
 {
 	return FinalObjectType::MapTile;
 }
-
-/*FinalObjectType MapTile::GetFinalObjectType() // override StaticCollidable
-{
-	return FinalObjectType::MapTile;
-}*/
 
 MapTileType MapTile::GetMapTileType()
 {
@@ -135,7 +131,17 @@ void GameMap::ReadMapLine(string* line)
 		Goomba* goomba = new Goomba();
 		goomba->SetPosition(Vector2(x, y));
 	}
-	else
+	else if (data[0] == "COINBLOCK")
+	{
+		if (data.size() <= 2)
+			return;
+
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+
+		CoinBlock* coinblock = new CoinBlock();
+		coinblock->SetPosition(Vector2(x, y));
+	}
 		return;
 
 	//Debug::GetReference()->DebugCollision(foo);
@@ -147,15 +153,7 @@ void GameMap::LoadMap(int world, int level)
 
 	string path = "Lygiai\\" + to_string(world) + to_string(level) + ".txt";
 
-	//string path = to_string(world) + to_string(level) + ".txt";
-
 	ifstream Read (path);
-
-	/*if (!Read.is_open())
-	{
-		path = "..\\..\\" + path;
-		Read = ifstream(path);
-	}*/
 
 	bool DEBUG_ISOPEN = Read.is_open();
 

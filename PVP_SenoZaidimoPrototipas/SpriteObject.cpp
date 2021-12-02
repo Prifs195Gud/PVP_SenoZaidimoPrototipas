@@ -3,7 +3,7 @@
 #include <algorithm>
 
 vector<SpriteObject*> SpriteObject::allObjects = vector<SpriteObject*>();
-unordered_map<int, vector<SpriteObject*>> SpriteObject::objectLayers = unordered_map<int, vector<SpriteObject*>>();
+map<int, vector<SpriteObject*>> SpriteObject::objectLayers = map<int, vector<SpriteObject*>>();
 
 void SpriteObject::Initialize(int Layer)
 {
@@ -52,7 +52,7 @@ vector<SpriteObject*>* SpriteObject::GetAllObjects()
 	return &allObjects;
 }
 
-unordered_map<int, vector<SpriteObject*>>* SpriteObject::GetAllLayers()
+map<int, vector<SpriteObject*>>* SpriteObject::GetAllLayers()
 {
 	return &objectLayers;
 }
