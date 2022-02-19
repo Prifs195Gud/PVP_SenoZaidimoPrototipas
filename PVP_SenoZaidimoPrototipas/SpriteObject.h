@@ -1,0 +1,73 @@
+#pragma once
+
+#include <SDL.h>
+#include <Vectors.h>
+#include <Sprite.h>
+#include <list>
+#include <map>
+#include <Transform.h>
+#include <Tick.h>
+
+using namespace std;
+
+// Kokiam sluoksnyje bus SpriteObject, kad galetu graziai vienas ant kito uzlipti dalykai
+enum class LayerType
+{
+	Background = -1,
+	Default = 0,
+	MapTiles = 1,
+	Overlay = 2,
+	Debug = 3
+};
+
+// Klase skirta, kad butent galetum jau atvaizduoti objekta, ji judinti ar kitaip manipuliuoti
+class SpriteObject : public Transform
+{
+private:
+	static vector<SpriteObject*> allObjects;
+	static map<int, vector<SpriteObject*>> objectLayers;
+
+	bool renderingEnabled, offsetStatic;
+	int layer;
+
+	void Initialize(int Layer);
+
+protected:
+	Sprite sprite;
+	SDL_Rect renderData; // Cia skirta, kad galetu ant lango tinkamai pavaizduoti kvadrateli
+
+	bool markedForDeletion; // jei reikes trinti atsargiai, tai sita naudosime
+
+public:
+	SpriteObject();
+	SpriteObject(Sprite Sprite);
+	SpriteObject(Sprite Sprite, int layer);
+
+	~SpriteObject();
+
+	static vector<SpriteObject*>* GetAllObjects();
+	static map<int, vector<SpriteObject*>>* GetAllLayers();
+
+	void Enable(bool var);
+	bool IsEnabled();
+
+	bool IsMarkedForDeletion();
+	void MarkForDeletion();
+
+	SDL_Rect* GetTextureData();
+	SDL_Rect* GetRenderData();
+	SDL_Rect GetRenderDataOffseted(Vector2 offset);
+
+	void UpdateRenderData(Vector2 worldScale);
+	virtual void OnRenderDataChange();
+
+	void Tick() override;
+	void OnPositionChange() override;
+
+	void SetSprite(Sprite SPRITE);
+	void SetLayer(LayerType newLayer);
+	void SetLayer(int newLayer);
+
+	void SetOffsetStatic(bool var);
+	bool IsOffsetStatic();
+};
