@@ -71,10 +71,14 @@ void SoundPlayer::AddSoundEffect(const char* audioClipPath)
 
 int SoundPlayer::GetVolume()
 {
-	int volume;
+	int volume = 128;
+	std::string key;
 	std::ifstream config;
 	config.open("config.txt");
-	config >> volume;
-	config.close();
+	if(config)
+	{
+		config >> key >> volume;
+		config.close();
+	}
 	return volume;
 }
