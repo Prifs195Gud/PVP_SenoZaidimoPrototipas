@@ -6,6 +6,7 @@
 #include <Vectors.h>
 
 #define GAME_BASE_RESOLUTION Vector2(256,240)
+#define BASE_FRAMERATE 60
 
 enum class GameState
 {

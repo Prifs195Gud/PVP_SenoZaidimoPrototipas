@@ -1,7 +1,24 @@
-#include "../PVP_SenoZaidimoPrototipas/Vectors.h"
+
+#include <Vectors.h>
 #include <math.h>
+#include <Random.h>
 
 Vector2 Vector2::up(.0, 1.0), Vector2::down(.0, -1.), Vector2::right(1.0, .0), Vector2::left(-1.0, .0), Vector2::zero(0,0);
+
+Vector2 Vector2::Random()
+{
+	return Vector2::Random(RandomVectorGenerationType::Box);
+}
+
+Vector2 Vector2::Random(RandomVectorGenerationType genType)
+{
+	Vector2 newVec = Vector2(Random::RandOneToOne(), Random::RandOneToOne());
+
+	if (genType == RandomVectorGenerationType::Circle)
+		newVec.Normalize();
+
+	return newVec;
+}
 
 Vector2::Vector2():x(0.), y(0.)
 {
@@ -33,6 +50,11 @@ Vector2 Vector2::operator-()
 Vector2 Vector2::operator*(double foo)
 {
 	return Vector2(x * foo, y * foo);
+}
+
+Vector2 Vector2::operator/(double foo)
+{
+	return Vector2(x / foo, y / foo);
 }
 
 double Vector2::operator*(Vector2 foo)

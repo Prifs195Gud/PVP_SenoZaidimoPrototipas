@@ -6,11 +6,19 @@
 const static double Deg2Rad = (PI * 2.) / 360.;
 const static double Rad2Deg = 360. / (PI * 2.);
 
+enum class RandomVectorGenerationType
+{
+	Box = 0,
+	Circle = 1
+};
+
 // Standartine 2D vektoriaus klase
 class Vector2
 {
 public:
 	static Vector2 up, down, right, left, zero;
+	static Vector2 Random();
+	static Vector2 Random(RandomVectorGenerationType genType);
 
 	double x, y;
 
@@ -24,6 +32,8 @@ public:
 	Vector2 operator -();
 
 	Vector2 operator *(double foo);
+	Vector2 operator /(double foo);
+
 	double operator *(Vector2 foo);
 
 	void operator +=(Vector2 foo);

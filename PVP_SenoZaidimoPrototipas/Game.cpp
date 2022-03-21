@@ -1,9 +1,13 @@
+
 #include <Game.h>
-#include <Windows.h> // GetAsyncKeyState
+
 #include <GameMap.h>
 #include <Rendering.h>
 #include <Player.h>
-#include <algorithm>    // std::sort
+
+#include <algorithm> // std::sort
+#include <chrono> // std::chrono::steady_clock, std::chrono::duration_cast, std::chrono::milliseconds
+#include <Windows.h> // GetAsyncKeyState
 
 Game* Game::singleton = nullptr;
 
@@ -184,8 +188,6 @@ void Game::MainLoop()
 		if (!run)
 			break;
 
-		SDL_Delay(17);
-
 		if (GetAsyncKeyState('P'))
 		{
 			if(pressedPause != true)
@@ -196,6 +198,7 @@ void Game::MainLoop()
 		else
 			pressedPause = false;
 
+		auto t1 = std::chrono::steady_clock::now();
 		if (!paused)
 		{
 			switch (currentGameState)
@@ -214,6 +217,15 @@ void Game::MainLoop()
 
 			Rendering::GetReference()->RenderWindow();
 		}
+		auto t2 = std::chrono::steady_clock::now();
+		auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+
+		int wait = (int)((1000. / BASE_FRAMERATE) - d_milli);
+
+		if (wait < 0)
+			wait = 0;
+
+		SDL_Delay(wait);
 	}
 
 	if(!gameQuit)
