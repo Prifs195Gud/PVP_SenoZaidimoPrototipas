@@ -161,6 +161,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="Sprite.h" />

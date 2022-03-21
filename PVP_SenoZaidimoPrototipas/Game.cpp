@@ -5,6 +5,8 @@
 #include <Player.h>
 #include <algorithm>    // std::sort
 
+#include <Particle.h>
+
 Game* Game::singleton = nullptr;
 
 Game::Game()
@@ -84,6 +86,12 @@ void Game::LoadLevel(int world, int level)
 {
 	GameMap::GetReference()->LoadMap(world, level);
 	SpawnPlayer();
+
+	ParticleSystemData dat2;
+	dat2.duration = 60;
+
+	ParticleSystem* partSys = new ParticleSystem(Sprite(16, 82, 4, 4), ParticleData(), dat2);
+	partSys->SetPosition(Vector2(50, 50));
 }
 
 void Game::SpawnPlayer()
