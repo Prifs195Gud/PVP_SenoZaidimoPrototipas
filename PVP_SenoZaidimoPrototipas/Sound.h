@@ -14,6 +14,7 @@ private:
 	void LoadSoundEffects();
 	void AddSoundEffect(const char* audioClipPath);
 	void AddSoundEffect(std::string audioClipPath);	
+	int GetVolume();
 
 public:
 	SoundPlayer();

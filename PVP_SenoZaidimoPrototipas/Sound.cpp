@@ -1,6 +1,7 @@
 
 #include <Sound.h>
 #include <SDL.h>
+#include <fstream>
 
 SoundPlayer* SoundPlayer::singleton = nullptr;
 
@@ -22,6 +23,7 @@ SoundPlayer::SoundPlayer()
 		return;
 	}
 
+	Mix_Volume(-1, GetVolume());
 	LoadSoundEffects();
 }
 
@@ -65,4 +67,14 @@ void SoundPlayer::AddSoundEffect(const char* audioClipPath)
 		soundEffects.push_back(tmpChunk);
 	else
 		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't init audio: %s", Mix_GetError());
+}
+
+int SoundPlayer::GetVolume()
+{
+	int volume;
+	std::ifstream config;
+	config.open("config.txt");
+	config >> volume;
+	config.close();
+	return volume;
 }
