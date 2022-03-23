@@ -12,6 +12,7 @@ enum class MapTileType
 {
 	Ground = 0,
 	Brick,
+	HardBlock,
 	Empty,
 	CoinBlock
 };

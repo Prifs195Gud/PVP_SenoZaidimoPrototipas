@@ -17,11 +17,13 @@ MapTile::MapTile(MapTileType tileType)
 	case MapTileType::Ground:
 		SetSprite(Sprite(0, 67, 16, 16));
 		break;
+	case MapTileType::HardBlock:
+		SetSprite(Sprite(0, 83, 16, 16));
+		break;
 	case MapTileType::Brick:
 		break;
 	case MapTileType::CoinBlock:
 		break;
-
 	case MapTileType::Empty:
 	default:
 		break;
@@ -141,6 +143,17 @@ void GameMap::ReadMapLine(string* line)
 
 		CoinBlock* coinblock = new CoinBlock();
 		coinblock->SetPosition(Vector2(x, y));
+	}
+	else if (data[0] == "HARDBLOCK")
+	{
+		if (data.size() <= 2)
+			return;
+
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+
+		MapTile* newTile = new MapTile(MapTileType::HardBlock);
+		newTile->SetPosition(Vector2(x, y));
 	}
 		return;
 
