@@ -7,16 +7,16 @@
 
 using namespace std;
 
-struct EmissionBursts
+struct EmissionBursts // Duomenu konteineris daleliu "sprogimams"
 {
 	double timeDelay = 0.;
 	int count = 1;
-	int cycles = 1;
+	int cycles = 0;
 	double interval = 0.;
 	double probability = 1.;
 };
 
-struct ParticleData
+struct ParticleData // Duomenu konteineris skirtas saugoti daleles duomenis
 {
 	double startLifetime = 1.;
 	double startSpeed = 1.;
@@ -24,19 +24,18 @@ struct ParticleData
 
 	double gravityMod = 0.;
 
-	bool paused = false;
-	bool visible = false;
-
 	Vector2 velocityOverLifetime;
 	Vector2 sizeOverLifetime;
 };
 
-struct ParticleSystemData
+struct ParticleSystemData // Daleliu sistemos duomenys
 {
 	double duration = 1.;
 
 	bool looping = false;
 	bool prewarm = false;
+
+	bool particlesInheritVelocity = false;
 
 	double startDelay = 0.;
 
@@ -47,31 +46,36 @@ struct ParticleSystemData
 	double emissionRadius = 1.;
 };
 
-class Particle : public SpriteObject
+class ParticleSystem; // Daleliu sistemos klases prototipas, nes pjaunasi su Particle klase, nes tenais yra pointer ParticleSystem
+
+class Particle : public SpriteObject // Paprasciausia dalele, tai nuotraukyte, kuri skraido ir poto mirsta, ir dingsta (arba pasako daleliu sitemai, kad mire)
 {
 public:
-	Particle(ParticleData _particleData, Sprite graphics);
+	Particle(ParticleSystem* parent, ParticleData _particleData, Sprite graphics);
 	~Particle();
 
 	void Tick() override;
 	void Revive(ParticleData newParticleData);
 
 private:
+	ParticleSystem* parentParticleSystem;
 	ParticleData particleData;
 
+	double initialLifetime;
 	bool dead;
 
 	void Die();
 	void Initialize();
 };
 
-class ParticleSystem : public Transform
+class ParticleSystem : public Transform // Daleliu sistemos klase, skirta gaminti daleles. Tikro gyvenimo pvz. butu pats fontanas koks
 {
 public:
 	ParticleSystem(Sprite graphics, ParticleData _particleData, ParticleSystemData _particleSystemData);
 	~ParticleSystem();
 
 	void Tick() override;
+	void ReportParticleDeath(Particle* ptr);
 
 private:
 	Sprite mySprite;
@@ -80,12 +84,19 @@ private:
 	vector<Particle*> myAliveParticles;
 	vector<Particle*> myDeadParticles;
 
+	vector<EmissionBursts> savedEmissionBursts;
+
 	ParticleData particleData;
 	ParticleSystemData particleSystemData;
 
 	double aliveTime, oldAliveTime;
+	Vector2 lastPos;
 
+	bool emissionPaused;
+
+	void PauseEmission(bool var);
 	void SpawnParticle();
+	void HandleBursts();
 	ParticleData GenerateParticleData();
 };
 

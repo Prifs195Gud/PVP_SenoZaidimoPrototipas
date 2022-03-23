@@ -87,11 +87,34 @@ void Game::LoadLevel(int world, int level)
 	GameMap::GetReference()->LoadMap(world, level);
 	SpawnPlayer();
 
-	ParticleSystemData dat2;
-	dat2.duration = 60;
+	ParticleData dat1;
+	dat1.gravityMod = 1;
+	dat1.startSpeed = 1;
+	dat1.startSize = 0.75;
+	dat1.velocityOverLifetime = Vector2(0., -5.);
+	//dat1.sizeOverLifetime = Vector2(10., 0.);
 
-	ParticleSystem* partSys = new ParticleSystem(Sprite(16, 82, 4, 4), ParticleData(), dat2);
+	EmissionBursts burst;
+	burst.timeDelay = 1.;
+	burst.count = 4;
+	burst.cycles = 1;
+	burst.interval = 1.;
+
+	vector<EmissionBursts> bursts;
+	bursts.push_back(burst);
+
+	ParticleSystemData dat2;
+	dat2.looping = true;
+	dat2.duration = 0;
+	dat2.emissionRateOverDistance = 1;
+	dat2.emissionRateOverTime = 0;
+	dat2.emissionRadius = 0;
+	//dat2.particlesInheritVelocity = true;
+	//dat2.emissionBursts = bursts;
+
+	ParticleSystem* partSys = new ParticleSystem(Sprite(16, 82, 4, 4), dat1, dat2);
 	partSys->SetPosition(Vector2(50, 50));
+	partSys->SetVelocity(Vector2(1, 0));
 }
 
 void Game::SpawnPlayer()
