@@ -155,6 +155,34 @@ void GameMap::ReadMapLine(string* line)
 		MapTile* newTile = new MapTile(MapTileType::HardBlock);
 		newTile->SetPosition(Vector2(x, y));
 	}
+	else if (data[0] == "PIPE")
+	{
+		if (data.size() <= 2)
+			return;
+
+		int posX = stoi(data[1]);
+		int height = stoi(data[2]);
+
+		for (int i = 0; i < height - 1; i++)
+		{
+			MapTile* newTile = new MapTile(Sprite(0, 115, 16, 16), MapTileType::Empty);
+			newTile->SetPosition(Vector2(posX, 200. - i * 16));
+			MapTiles.push_back(newTile);
+		}
+		MapTile* newTile = new MapTile(Sprite(0, 99, 16, 16), MapTileType::Empty);
+		newTile->SetPosition(Vector2(posX, 200. - (height - 1) * 16));
+		MapTiles.push_back(newTile);
+
+		for (int i = 0; i < height - 1; i++)
+		{
+			MapTile* newTile = new MapTile(Sprite(16, 115, 16, 16), MapTileType::Empty);
+			newTile->SetPosition(Vector2(posX + 16, 200. - i * 16));
+			MapTiles.push_back(newTile);
+		}
+		newTile = new MapTile(Sprite(16, 99, 16, 16), MapTileType::Empty);
+		newTile->SetPosition(Vector2(posX + 16, 200. - (height - 1) * 16));
+		MapTiles.push_back(newTile);
+	}
 		return;
 
 	//Debug::GetReference()->DebugCollision(foo);
