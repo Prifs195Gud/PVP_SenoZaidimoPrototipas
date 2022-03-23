@@ -163,6 +163,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteObject.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteObject.h" />

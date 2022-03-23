@@ -1,5 +1,6 @@
 
 #include <Particle.h>
+#include <Random.h>
 
 Particle::Particle(ParticleData _particleData, Sprite graphics): SpriteObject(graphics, (int)LayerType::Overlay)
 {
@@ -96,7 +97,7 @@ void ParticleSystem::Tick()
 ParticleData ParticleSystem::GenerateParticleData()
 {
 	ParticleData newData = particleData;
-	newData.startSpeed = ((double)rand() / (double)RAND_MAX) * newData.startSpeed;
+	newData.startSpeed *= Random::RandZeroToOne();
 
 	return newData;
 }
