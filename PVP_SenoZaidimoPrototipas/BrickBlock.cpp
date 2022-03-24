@@ -4,7 +4,7 @@
 #include <Sprite.h>
 #include <Windows.h>
 
-BrickBlock::BrickBlock() : CollidableSpriteObject(Sprite(Vector2(16, 67), 16, 16))
+BrickBlock::BrickBlock() : MapTile(Sprite(Vector2(16, 67), 16, 16), MapTileType::Brick)
 {
 	isRemoved = false;
 }
@@ -27,10 +27,10 @@ void BrickBlock::OnCollision(CollidableSpriteObject* collision)
 		return;
 
 	Vector2 objToMe = position - collision->GetPosition();
-	if (!(objToMe.VectorAngle(Vector2::down) * Rad2Deg < 90.))
+	if (objToMe.VectorAngle(Vector2::down) * Rad2Deg < 90. && collision->GetFinalObjectType() == FinalObjectType::Player)
+		Remove();
+	else
 		return;
-	
-	Remove();
 }
 
 void BrickBlock::Remove()

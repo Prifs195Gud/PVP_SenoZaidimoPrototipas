@@ -2,7 +2,7 @@
 
 #include<GameMap.h>
 
-class BrickBlock : public CollidableSpriteObject
+class BrickBlock : public MapTile
 {
 private:
 	bool isRemoved;
