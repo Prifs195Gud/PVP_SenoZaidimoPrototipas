@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <Goomba.h>
 #include <CoinBlock.h>
+#include <BrickBlock.h>
 
 MapTile::MapTile(MapTileType tileType)
 {
@@ -154,6 +155,7 @@ void GameMap::ReadMapLine(string* line)
 
 		MapTile* newTile = new MapTile(MapTileType::HardBlock);
 		newTile->SetPosition(Vector2(x, y));
+		MapTiles.push_back(newTile);
 	}
 	else if (data[0] == "PIPE")
 	{
@@ -182,6 +184,17 @@ void GameMap::ReadMapLine(string* line)
 		newTile = new MapTile(Sprite(16, 99, 16, 16), MapTileType::Empty);
 		newTile->SetPosition(Vector2(posX + 16, 200. - (height - 1) * 16));
 		MapTiles.push_back(newTile);
+	}
+	else if (data[0] == "BRICKBLOCK")
+	{
+		if (data.size() <= 2)
+			return;
+
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+
+		BrickBlock* brickblock = new BrickBlock();
+		brickblock->SetPosition(Vector2(x, y));
 	}
 		return;
 
