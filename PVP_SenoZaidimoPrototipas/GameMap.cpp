@@ -288,6 +288,53 @@ void GameMap::ReadMapLine(string* line)
 		newTile4->SetPosition(Vector2(x + length * 16 - 4, y + 12));
 		MapTiles.push_back(newTile4);
 	}
+	else if (data[0] == "MOUNTAIN")
+	{
+		if (data.size() <= 2)
+			return;
+
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+		int width = stoi(data[3]);
+
+		if (width >= 2 && width % 2 == 1) {
+			int height = 0;
+			while (width != 1) {
+
+				MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
+				newTile->SetSprite(Sprite(154, 51, 16, 16));
+				newTile->SetPosition(Vector2(x + height * 16, y - height * 16));
+				MapTiles.push_back(newTile);
+
+				for (int i = 0; i < width - 2; i++) {
+					MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
+					if (i % 2 == 0)
+					{
+						newTile->SetSprite(Sprite(170, 51, 16, 16));
+					}
+					else
+					{
+						newTile->SetSprite(Sprite(186, 51, 16, 16));
+					}
+					newTile->SetPosition(Vector2(x + (i + 1) * 16 + height * 16, y - height * 16));
+					MapTiles.push_back(newTile);
+				}
+
+				MapTile* newTile2 = new MapTile(MapTileType::Empty, LayerType::Background);
+				newTile2->SetSprite(Sprite(218, 51, 16, 16));
+				newTile2->SetPosition(Vector2(x + (width - 1) * 16 + height * 16, y - height * 16));
+				MapTiles.push_back(newTile2);
+
+				width -= 2;
+				height++;
+			}
+
+			MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
+			newTile->SetSprite(Sprite(186, 19, 16, 16));
+			newTile->SetPosition(Vector2(x + height * 16, y - height * 16));
+			MapTiles.push_back(newTile);
+		}
+	}
 		return;
 
 	//Debug::GetReference()->DebugCollision(foo);
