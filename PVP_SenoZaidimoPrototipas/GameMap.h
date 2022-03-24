@@ -21,6 +21,7 @@ class MapTile : public StaticCollidable
 {
 public:
 	MapTile(MapTileType tileType);
+	MapTile(MapTileType tileType, LayerType layerType);
 	MapTile(Sprite sprite, MapTileType tileType);
 	~MapTile();
 
