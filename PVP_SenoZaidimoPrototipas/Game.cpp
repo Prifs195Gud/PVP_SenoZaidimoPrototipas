@@ -6,6 +6,7 @@
 #include <algorithm>    // std::sort
 
 #include <Particle.h>
+#include <chrono>
 
 Game* Game::singleton = nullptr;
 
@@ -106,7 +107,7 @@ void Game::LoadLevel(int world, int level)
 	ParticleSystemData dat2;
 	dat2.looping = true;
 	dat2.duration = 0;
-	dat2.emissionRateOverDistance = 1;
+	dat2.emissionRateOverDistance = 0.05;
 	dat2.emissionRateOverTime = 0;
 	dat2.emissionRadius = 0;
 	//dat2.particlesInheritVelocity = true;
@@ -114,6 +115,7 @@ void Game::LoadLevel(int world, int level)
 
 	ParticleSystem* partSys = new ParticleSystem(Sprite(16, 82, 4, 4), dat1, dat2);
 	partSys->SetPosition(Vector2(50, 50));
+	partSys->ResetPositionTracker();
 	partSys->SetVelocity(Vector2(1, 0));
 }
 
@@ -215,8 +217,6 @@ void Game::MainLoop()
 		if (!run)
 			break;
 
-		SDL_Delay(17);
-
 		if (GetAsyncKeyState('P'))
 		{
 			if(pressedPause != true)
@@ -227,6 +227,7 @@ void Game::MainLoop()
 		else
 			pressedPause = false;
 
+		auto t1 = std::chrono::steady_clock::now();
 		if (!paused)
 		{
 			switch (currentGameState)
@@ -245,6 +246,16 @@ void Game::MainLoop()
 
 			Rendering::GetReference()->RenderWindow();
 		}
+		auto t2 = std::chrono::steady_clock::now();
+		auto d_milli = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+
+		int wait = 16 - d_milli;
+
+		if (wait < 0)
+			wait = 0;
+
+		SDL_Delay(wait);
+		//SDL_Delay(17);
 	}
 
 	if(!gameQuit)

@@ -15,6 +15,9 @@ Particle::~Particle()
 
 void Particle::Die()
 {
+	if (dead)
+		return;
+
 	dead = true;
 
 	Enable(false);
@@ -156,7 +159,7 @@ void ParticleSystem::Tick()
 		}
 		else
 		{
-			if(myAliveParticles.size() == 0 && particleSystemData.emissionBursts.size() == 0)
+			if(myParticles.size() - myDeadParticles.size() == 0 && particleSystemData.emissionBursts.size() == 0)
 				delete this;
 
 			return;
@@ -215,7 +218,6 @@ void ParticleSystem::SpawnParticle()
 		if (particleSystemData.particlesInheritVelocity)
 			oldPart->SetVelocity(oldPart->GetVelocity() + velocity);
 
-		myAliveParticles.push_back(oldPart);
 		myDeadParticles.erase(myDeadParticles.begin());
 		return;
 	}
@@ -228,7 +230,6 @@ void ParticleSystem::SpawnParticle()
 		part->SetVelocity(part->GetVelocity() + velocity);
 
 	myParticles.push_back(part);
-	myAliveParticles.push_back(part);
 }
 
 void ParticleSystem::ReportParticleDeath(Particle* ptr)
@@ -236,11 +237,10 @@ void ParticleSystem::ReportParticleDeath(Particle* ptr)
 	if (ptr == nullptr)
 		return;
 
-	for (size_t i = 0; i < myAliveParticles.size(); i++)
-		if (myAliveParticles[i] == ptr)
-		{
-			myDeadParticles.push_back(ptr);
-			myAliveParticles.erase(myAliveParticles.begin() + i);
-			return;
-		}
+	myDeadParticles.push_back(ptr);
+}
+
+void ParticleSystem::ResetPositionTracker()
+{
+	lastPos = position;
 }

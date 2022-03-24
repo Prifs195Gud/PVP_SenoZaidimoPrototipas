@@ -77,11 +77,12 @@ public:
 	void Tick() override;
 	void ReportParticleDeath(Particle* ptr);
 
+	void ResetPositionTracker();
+
 private:
 	Sprite mySprite;
 
 	vector<Particle*> myParticles;
-	vector<Particle*> myAliveParticles;
 	vector<Particle*> myDeadParticles;
 
 	vector<EmissionBursts> savedEmissionBursts;
