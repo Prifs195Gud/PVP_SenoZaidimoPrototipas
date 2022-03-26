@@ -156,7 +156,7 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
+		float x = stof(data[1]) + 8;
 		float y = stof(data[2]);
 
 		Goomba* goomba = new Goomba();
@@ -172,6 +172,7 @@ void GameMap::ReadMapLine(string* line)
 
 		CoinBlock* coinblock = new CoinBlock();
 		coinblock->SetPosition(Vector2(x, y));
+		MapTiles.push_back(coinblock);
 	}
 	else if (data[0] == "HARDBLOCK")
 	{
@@ -185,34 +186,6 @@ void GameMap::ReadMapLine(string* line)
 		newTile->SetPosition(Vector2(x, y));
 		MapTiles.push_back(newTile);
 	}
-	else if (data[0] == "PIPE")
-	{
-		if (data.size() <= 2)
-			return;
-
-		int posX = stoi(data[1]);
-		int height = stoi(data[2]);
-
-		for (int i = 0; i < height - 1; i++)
-		{
-			MapTile* newTile = new MapTile(Sprite(0, 115, 16, 16), MapTileType::Empty);
-			newTile->SetPosition(Vector2(posX, 200. - i * 16));
-			MapTiles.push_back(newTile);
-		}
-		MapTile* newTile = new MapTile(Sprite(0, 99, 16, 16), MapTileType::Empty);
-		newTile->SetPosition(Vector2(posX, 200. - (height - 1) * 16));
-		MapTiles.push_back(newTile);
-
-		for (int i = 0; i < height - 1; i++)
-		{
-			MapTile* newTile = new MapTile(Sprite(16, 115, 16, 16), MapTileType::Empty);
-			newTile->SetPosition(Vector2(posX + 16, 200. - i * 16));
-			MapTiles.push_back(newTile);
-		}
-		MapTile* newTile2 = new MapTile(Sprite(16, 99, 16, 16), MapTileType::Empty);
-		newTile2->SetPosition(Vector2(posX + 16, 200. - (height - 1) * 16));
-		MapTiles.push_back(newTile2);
-	}
 	else if (data[0] == "BRICKBLOCK")
 	{
 		if (data.size() <= 2)
@@ -223,6 +196,36 @@ void GameMap::ReadMapLine(string* line)
 
 		BrickBlock* brickblock = new BrickBlock();
 		brickblock->SetPosition(Vector2(x, y));
+		MapTiles.push_back(brickblock);
+	}
+	else if (data[0] == "PIPE")
+	{
+		if (data.size() <= 2)
+			return;
+
+		int posX = stoi(data[1]) + 16;
+		int height = stoi(data[2]);
+
+		if (height == 2) {
+			MapTile* newTile = new MapTile(MapTileType::Empty);
+			newTile->SetSprite(Sprite(Vector2(0, 99), 32, 32));
+			newTile->SetPosition(Vector2(posX, 184));
+			MapTiles.push_back(newTile);
+		}
+		else if (height == 3) {
+			MapTile* newTile = new MapTile(MapTileType::Empty);
+			newTile->SetSprite(Sprite(Vector2(154, 219), 32, 48));
+			newTile->SetPosition(Vector2(posX, 184));
+			MapTiles.push_back(newTile);
+		}
+		else if (height == 4) {
+			MapTile* newTile = new MapTile(Sprite(154, 219, 64, 64), MapTileType::Empty);
+			newTile->SetPosition(Vector2(posX, 152));
+			MapTiles.push_back(newTile);
+		}
+		else {
+			return;
+		}
 	}
 	else if (data[0] == "BUSH")
 	{
