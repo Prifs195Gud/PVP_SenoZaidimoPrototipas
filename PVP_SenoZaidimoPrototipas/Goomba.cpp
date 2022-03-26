@@ -1,15 +1,23 @@
 #include <Goomba.h>
+#include <GameCamera.h>
+#include <Game.h>
 
 Goomba::Goomba() : CollidableSpriteObject(Sprite(Vector2(32, 131), 16, 16))
 {
-	speed = 0.5f;
-	goingRight = false;
 	deathTexture.SetSprite(Sprite(Vector2(32, 131), 16, 16));
+	deathTexture.Enable(false);
+
 	walkingAnimation.LoadAnimFrames(Sprite(Vector2(0, 131), 16, 16));
 	walkingAnimation.LoadAnimFrames(Sprite(Vector2(16, 131), 16, 16));
-	deathTexture.Enable(false);
+
 	isRemoved = false;
+	activated = false;
+	goingRight = false;
+
+	speed = 0.5f;
 	ticksAfterRemove = 0;
+	ticksDidntMove = 0;
+	changeDirectionTicksThreshold = 2;
 
 	Enable(false);
 }
@@ -19,41 +27,20 @@ Goomba::~Goomba()
 
 }
 
-void Goomba::OnCollision(CollidableSpriteObject* collision) // override CollidableSpriteObject
+void Goomba::CheckDirectionChange()
 {
-	CollidableSpriteObject::OnCollision(collision);
+	if (oldPosition == position)
+		ticksDidntMove++;
+	else
+		ticksDidntMove = 0;
 
-	if (collision == nullptr)
-		return;
-
-	FinalObjectType type = collision->GetFinalObjectType();
-	Vector2 objToMe;
-
-	switch (type)
+	if (ticksDidntMove >= changeDirectionTicksThreshold)
 	{
-	case FinalObjectType::MapTile:
-	case FinalObjectType::Player:
-	case FinalObjectType::Enemy:
-
-		if (goingRight)
-		{
-			objToMe = position - collision->GetPosition();
-			if (objToMe.VectorAngle(Vector2::left) * Rad2Deg < 30.)
-				goingRight = false;
-		}
-		else
-		{
-			objToMe = position - collision->GetPosition();
-			if (objToMe.VectorAngle(Vector2::right) * Rad2Deg < 30.)
-				goingRight = true;
-		}
-
-		break;
-
-	case FinalObjectType::None:
-	default:
-		break;
+		ticksDidntMove = 0;
+		goingRight = !goingRight;
 	}
+
+	oldPosition = position;
 }
 
 void Goomba::Tick() // override CollidableSpriteObject
@@ -69,7 +56,17 @@ void Goomba::Tick() // override CollidableSpriteObject
 	}
 	else
 	{
+		if (!activated)
+		{
+			if(abs(position.x - GameCamera::GetReference()->GetPosition().x) < GAME_BASE_RESOLUTION.x / 2)
+				activated = true;
+
+			return;
+		}
+
 		Vector2 vel = velocity;
+
+		CheckDirectionChange();
 
 		if (goingRight)
 			vel.x = speed;
