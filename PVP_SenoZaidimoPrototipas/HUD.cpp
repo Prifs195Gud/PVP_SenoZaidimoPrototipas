@@ -17,7 +17,7 @@ PlayerHUD::PlayerHUD()
 	scoreText.SetPosition(Vector2(28, 12));
 	scoreText.SetOffsetStatic(true);
 
-	string scor = scoreValueText.NumberToText(score);
+	std::string scor = std::to_string(score);
 	scoreValueText.SetText(scor);
 	scoreValueText.SetPosition(Vector2(28, 20));
 	scoreValueText.SetOffsetStatic(true);
@@ -69,7 +69,7 @@ void PlayerHUD::SetScore(int Score) {
 
 void PlayerHUD::DrawScore() {
 
-	string scor = scoreValueText.NumberToText(score);
+	std::string scor = std::to_string(score);
 	scoreValueText.SetText(scor);
 	//scoreValueText.SetPosition(Vector2(28, 20));
 	//scoreValueText.SetOffsetStatic(true);

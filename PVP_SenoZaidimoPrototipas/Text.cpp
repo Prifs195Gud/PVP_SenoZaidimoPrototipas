@@ -108,7 +108,3 @@ void Text::ClearText()
 	myLetters.clear();
 }
 
-string Text::NumberToText(int number) {
-	 std::string s = std::to_string(number);
-	 return s;
-}

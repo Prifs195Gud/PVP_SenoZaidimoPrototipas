@@ -1,5 +1,4 @@
 #include <Goomba.h>
-#include <Score.h>
 #include <HUD.h>
 Goomba::Goomba() : CollidableSpriteObject(Sprite(Vector2(32, 131), 16, 16)), pointObject(Sprite(), -1)
 {
@@ -114,7 +113,10 @@ void Goomba::Remove()
 	if (!isRemoved) 
 	{
 		
-
+		PlayerHUD* playerhud = PlayerHUD::GetReference();
+		playerhud->SetScore(100);
+		playerhud->DrawScore();
+		
 		trigger_cooldown = trigger_delay;
 		isRemoved = true;
 		walkingAnimation.EnableRendering(false);
