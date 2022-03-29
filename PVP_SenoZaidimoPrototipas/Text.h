@@ -27,8 +27,10 @@ public:
 
 	void Enable(bool var);
 	bool IsEnabled();
+	string NumberToText(int text);
+
 private:
-	bool enabled;
+	bool enabled, offsetStatic;
 
 	string originalText;
 

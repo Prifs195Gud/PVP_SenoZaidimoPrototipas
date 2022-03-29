@@ -5,21 +5,25 @@
 Text::Text() :position(Vector2()), enabled(true)
 {
 	originalText = "";
+	offsetStatic = false;
 }
 
 Text::Text(std::string text) :position(Vector2()), enabled(true)
 {
+	offsetStatic = false;
 	SetText(text);
 }
 
 Text::Text(std::string text, bool active) : position(Vector2()), enabled(true)
 {
+	offsetStatic = false;
 	SetText(text);
 	Enable(active);
 }
 
 Text::Text(std::string text, Vector2 position) :position(position), enabled(true)
 {
+	offsetStatic = false;
 	SetText(text);
 }
 
@@ -44,12 +48,15 @@ void Text::SetText(std::string text)
 		Sprite letterSprite = rendering->GetLetterTexture(text[i]);
 		SpriteObject* newLetter = new SpriteObject(letterSprite, (int)LayerType::Overlay);
 		newLetter->SetPosition(Vector2(i * 8, 0) + position);
+		newLetter->SetOffsetStatic(offsetStatic);
 		myLetters.push_back(newLetter);
 	}
 }
 
 void Text::SetOffsetStatic(bool var)
 {
+	offsetStatic = var;
+
 	for (size_t i = 0; i < myLetters.size(); i++)
 		myLetters[i]->SetOffsetStatic(var);
 }
@@ -99,4 +106,9 @@ void Text::ClearText()
 		delete myLetters[i];
 
 	myLetters.clear();
+}
+
+string Text::NumberToText(int number) {
+	 std::string s = std::to_string(number);
+	 return s;
 }

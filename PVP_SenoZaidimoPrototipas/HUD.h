@@ -8,8 +8,9 @@ class PlayerHUD
 public:
 	PlayerHUD();
 	~PlayerHUD();
-
+	void SetScore(int Score);
 	static PlayerHUD* GetReference();
+	void DrawScore();
 private:
 	static PlayerHUD* singleton;
 

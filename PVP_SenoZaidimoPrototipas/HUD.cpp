@@ -1,10 +1,12 @@
 
 #include <HUD.h>
-
+#include<string>
 PlayerHUD* PlayerHUD::singleton = nullptr;
 
 PlayerHUD::PlayerHUD()
 {
+	singleton = this;
+
 	score = 0;
 	money = 0;
 	world = 1;
@@ -15,7 +17,8 @@ PlayerHUD::PlayerHUD()
 	scoreText.SetPosition(Vector2(28, 12));
 	scoreText.SetOffsetStatic(true);
 
-	scoreValueText.SetText("000000");
+	string scor = scoreValueText.NumberToText(score);
+	scoreValueText.SetText(scor);
 	scoreValueText.SetPosition(Vector2(28, 20));
 	scoreValueText.SetOffsetStatic(true);
 
@@ -58,4 +61,16 @@ PlayerHUD* PlayerHUD::GetReference()
 		return new PlayerHUD();
 
 	return singleton;
+}
+
+void PlayerHUD::SetScore(int Score) {
+	score = score + Score;
+}
+
+void PlayerHUD::DrawScore() {
+
+	string scor = scoreValueText.NumberToText(score);
+	scoreValueText.SetText(scor);
+	//scoreValueText.SetPosition(Vector2(28, 20));
+	//scoreValueText.SetOffsetStatic(true);
 }
