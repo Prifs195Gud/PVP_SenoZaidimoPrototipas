@@ -209,7 +209,7 @@ void GameMap::ReadMapLine(string* line)
 		if (height == 2 || height == 3 || height == 4) {
 			MapTile* newTile = new MapTile(MapTileType::Empty);
 			newTile->SetSprite(Sprite(Vector2(154, 219), 32, height * 16));
-			newTile->SetPosition(Vector2(posX, 208 - height * 8));
+			newTile->SetPosition(Vector2(posX, 208 - height * 8.));
 			MapTiles.push_back(newTile);
 
 		}
@@ -222,110 +222,75 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
-		float y = stof(data[2]);
-		int length = stoi(data[3]);
+		int posX = stoi(data[1]);
+		int length = stoi(data[2]);
 
-		MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-		newTile->SetSprite(Sprite(160, 107, 8, 16));
-		newTile->SetPosition(Vector2(x - 12, y));
-		MapTiles.push_back(newTile);
-
-		for (int i = 0; i < length; i++) {
+		if (length == 1 || length == 2 || length == 3) {
 			MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-			newTile->SetSprite(Sprite(168, 107, 16, 16));
-			newTile->SetPosition(Vector2(x + i * 16, y));
+			if (length == 1) {
+				newTile->SetSprite(Sprite(Vector2(160, 107), 32, 16));
+			}
+			else if (length == 2) {
+				newTile->SetSprite(Sprite(Vector2(192, 107), 48, 16));
+			}
+			else {
+				newTile->SetSprite(Sprite(Vector2(160, 91), 64, 16));
+			}
+			newTile->SetPosition(Vector2(posX + (length + 2) * 8., 200));
 			MapTiles.push_back(newTile);
 		}
-
-		MapTile* newTile2 = new MapTile(MapTileType::Empty, LayerType::Background);
-		newTile2->SetSprite(Sprite(184, 107, 8, 16));
-		newTile2->SetPosition(Vector2(x + length * 16 - 4, y));
-		MapTiles.push_back(newTile2);
+		else {
+			return;
+		}
 	}
 	else if (data[0] == "CLOUD")
 	{
-		if (data.size() <= 2)
+		if (data.size() <= 3)
 			return;
 
-		float x = stof(data[1]);
-		float y = stof(data[2]);
+		int posX = stoi(data[1]);
+		int posY = stoi(data[2]);
 		int length = stoi(data[3]);
 
-		MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-		newTile->SetSprite(Sprite(128, 107, 8, 16));
-		newTile->SetPosition(Vector2(x - 12, y));
-		MapTiles.push_back(newTile);
-		MapTile* newTile2 = new MapTile(MapTileType::Empty, LayerType::Background);
-		newTile2->SetSprite(Sprite(128, 123, 8, 8));
-		newTile2->SetPosition(Vector2(x - 12, y + 12));
-		MapTiles.push_back(newTile2);
-
-		for (int i = 0; i < length; i++) {
+		if (length == 1 || length == 2 || length == 3) {
 			MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-			newTile->SetSprite(Sprite(136, 107, 16, 16));
-			newTile->SetPosition(Vector2(x + i * 16, y));
+			if (length == 1) {
+				newTile->SetSprite(Sprite(Vector2(128, 107), 32, 24));
+			}
+			else if (length == 2) {
+				newTile->SetSprite(Sprite(Vector2(80, 107), 48, 24));
+			}
+			else {
+				newTile->SetSprite(Sprite(Vector2(186, 219), 64, 24));
+			}
+			newTile->SetPosition(Vector2(posX + (length + 2) * 8., posY - 8.));
 			MapTiles.push_back(newTile);
-			MapTile* newTile2 = new MapTile(MapTileType::Empty, LayerType::Background);
-			newTile2->SetSprite(Sprite(136, 123, 16, 8));
-			newTile2->SetPosition(Vector2(x + i * 16, y + 12));
-			MapTiles.push_back(newTile2);
 		}
-
-		MapTile* newTile3 = new MapTile(MapTileType::Empty, LayerType::Background);
-		newTile3->SetSprite(Sprite(152, 107, 8, 16));
-		newTile3->SetPosition(Vector2(x + length * 16 - 4, y));
-		MapTiles.push_back(newTile3);
-		MapTile* newTile4 = new MapTile(MapTileType::Empty, LayerType::Background);
-		newTile4->SetSprite(Sprite(152, 123, 8, 8));
-		newTile4->SetPosition(Vector2(x + length * 16 - 4, y + 12));
-		MapTiles.push_back(newTile4);
+		else {
+			return;
+		}
 	}
 	else if (data[0] == "MOUNTAIN")
 	{
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
-		float y = stof(data[2]);
-		int width = stoi(data[3]);
+		int posX = stoi(data[1]);
+		int width = stoi(data[2]);
 
-		if (width >= 2 && width % 2 == 1) {
-			int height = 0;
-			while (width != 1) {
-
-				MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-				newTile->SetSprite(Sprite(154, 51, 16, 16));
-				newTile->SetPosition(Vector2(x + height * 16, y - height * 16));
-				MapTiles.push_back(newTile);
-
-				for (int i = 0; i < width - 2; i++) {
-					MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-					if (i % 2 == 0)
-					{
-						newTile->SetSprite(Sprite(170, 51, 16, 16));
-					}
-					else
-					{
-						newTile->SetSprite(Sprite(186, 51, 16, 16));
-					}
-					newTile->SetPosition(Vector2(x + (i + 1) * 16 + height * 16, y - height * 16));
-					MapTiles.push_back(newTile);
-				}
-
-				MapTile* newTile2 = new MapTile(MapTileType::Empty, LayerType::Background);
-				newTile2->SetSprite(Sprite(218, 51, 16, 16));
-				newTile2->SetPosition(Vector2(x + (width - 1) * 16 + height * 16, y - height * 16));
-				MapTiles.push_back(newTile2);
-
-				width -= 2;
-				height++;
-			}
-
+		if (width == 3 || width == 5) {
 			MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-			newTile->SetSprite(Sprite(186, 19, 16, 16));
-			newTile->SetPosition(Vector2(x + height * 16, y - height * 16));
+			newTile->SetSprite(Sprite(Vector2(154, 32), 80, 35));
+			if (width == 3) {
+				newTile->SetPosition(Vector2(posX + 24., 208. - 1.5));
+			}
+			else {
+				newTile->SetPosition(Vector2(posX + 40., 208. - 17.5));
+			}
 			MapTiles.push_back(newTile);
+		}
+		else {
+			return;
 		}
 	}
 		return;
