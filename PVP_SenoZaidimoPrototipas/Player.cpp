@@ -2,6 +2,7 @@
 #include <Collision.h>
 #include <GameCamera.h>
 #include <Goomba.h>
+#include <Sound.h>
 
 Player* Player::player = nullptr;
 
@@ -164,6 +165,8 @@ void Player::Jump()
 
 	if (!onGround)
 		return;
+
+	SoundPlayer::GetReference()->PlaySoundEffect(0);
 
 	onGround = false;
 	jumping = true;
