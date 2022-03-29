@@ -12,16 +12,24 @@ public:
 	Transform(Vector2 pos, Vector2 objectScale);
 	~Transform();
 
+	// Jei pasikeicia pozicija isvestines klases gali nuspresti ka daryti
+	virtual void OnPositionChange(); 
+
+	// Del periodinio judejimo
+	void Tick() override; 
+
+	// Pajudinti objekta su vektoriumi
+	void Translate(Vector2 vec); 
+
+	// Nustatoma nauja objekto pozicija
+	void SetPosition(Vector2 Position); 
 	Vector2 GetPosition();
-
-	virtual void OnPositionChange();
-	void Tick() override;
-
-	void Translate(Vector2 vec);
-	void SetPosition(Vector2 Position);
 
 	void SetVelocity(Vector2 vel);
 	Vector2 GetVelocity();
+
+	void SetScale(Vector2 newScale);
+	Vector2 GetScale();
 protected:
 	Vector2 position, scale, velocity;
 };
