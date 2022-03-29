@@ -206,22 +206,12 @@ void GameMap::ReadMapLine(string* line)
 		int posX = stoi(data[1]) + 16;
 		int height = stoi(data[2]);
 
-		if (height == 2) {
+		if (height == 2 || height == 3 || height == 4) {
 			MapTile* newTile = new MapTile(MapTileType::Empty);
-			newTile->SetSprite(Sprite(Vector2(0, 99), 32, 32));
-			newTile->SetPosition(Vector2(posX, 184));
+			newTile->SetSprite(Sprite(Vector2(154, 219), 32, height * 16));
+			newTile->SetPosition(Vector2(posX, 208 - height * 8));
 			MapTiles.push_back(newTile);
-		}
-		else if (height == 3) {
-			MapTile* newTile = new MapTile(MapTileType::Empty);
-			newTile->SetSprite(Sprite(Vector2(154, 219), 32, 48));
-			newTile->SetPosition(Vector2(posX, 184));
-			MapTiles.push_back(newTile);
-		}
-		else if (height == 4) {
-			MapTile* newTile = new MapTile(Sprite(154, 219, 64, 64), MapTileType::Empty);
-			newTile->SetPosition(Vector2(posX, 152));
-			MapTiles.push_back(newTile);
+
 		}
 		else {
 			return;
