@@ -61,3 +61,15 @@ Vector2 Transform::GetVelocity()
 {
 	return velocity;
 }
+
+void Transform::SetScale(Vector2 newScale)
+{
+	scale = newScale;
+
+	OnPositionChange();
+}
+
+Vector2 Transform::GetScale()
+{
+	return scale;
+}
