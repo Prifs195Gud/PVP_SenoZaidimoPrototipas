@@ -55,7 +55,7 @@ PlayerHUD::~PlayerHUD()
 PlayerHUD* PlayerHUD::GetReference()
 {
 	if (singleton == nullptr)
-		return new PlayerHUD();
+		singleton = new PlayerHUD();
 
 	return singleton;
 }
