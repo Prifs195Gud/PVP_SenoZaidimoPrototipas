@@ -4,7 +4,7 @@
 #include <Sprite.h>
 #include <Windows.h>
 
-CoinBlock::CoinBlock() :MapTile(Sprite(Vector2(161, 67), 16, 16), MapTileType::CoinBlock), coinObject(Sprite(), -1)
+CoinBlock::CoinBlock() :MapTile(Sprite(Vector2(161, 67), 16, 16)), coinObject(Sprite(), -1)
 {
 	coinObject.SetSprite(Sprite(Vector2(116, 85), 10, 14));
 

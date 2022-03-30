@@ -6,30 +6,16 @@
 #include <filesystem>
 #include <Goomba.h>
 #include <CoinBlock.h>
+#include <BrickBlock.h>
 
-MapTile::MapTile(MapTileType tileType)
+MapTile::MapTile(Sprite sprite) : StaticCollidable(sprite, (int)LayerType::MapTiles)
 {
-	mapTileType = tileType;
-	SetLayer(LayerType::MapTiles);
-
-	switch (mapTileType)
-	{
-	case MapTileType::Ground:
-		SetSprite(Sprite(0, 67, 16, 16));
-		break;
-	case MapTileType::Brick:
-		break;
-	case MapTileType::CoinBlock:
-		break;
-
-	case MapTileType::Empty:
-	default:
-		break;
-	}
 }
 
-MapTile::MapTile(Sprite sprite, MapTileType tileType) : StaticCollidable(sprite, (int)LayerType::MapTiles), mapTileType(tileType)
+MapTile::MapTile(Sprite sprite, LayerType layerType) : StaticCollidable(sprite, (int)layerType)
 {
+	if (layerType == LayerType::Background)
+		EnableCollision(false);
 }
 
 MapTile::~MapTile()
@@ -39,11 +25,6 @@ MapTile::~MapTile()
 FinalObjectType MapTile::GetFinalObjectType() // override StaticCollidable
 {
 	return FinalObjectType::MapTile;
-}
-
-MapTileType MapTile::GetMapTileType()
-{
-	return mapTileType;
 }
 
 // ***************************************************
@@ -88,6 +69,9 @@ std::vector<std::string> split(const std::string& s, char delimiter)
 	return tokens;
 }
 
+Sprite bushes[3] = { Sprite(Vector2(160, 107), 32, 16) ,Sprite(Vector2(192, 107), 48, 16),  Sprite(Vector2(160, 91), 64, 16) };
+Sprite clouds[3] = { Sprite(Vector2(128, 107), 32, 24) ,Sprite(Vector2(80, 107), 48, 24),  Sprite(Vector2(186, 219), 64, 24) };
+
 void GameMap::ReadMapLine(string* line)
 {
 	vector<string> data = split(line->c_str(), ' ');
@@ -108,14 +92,14 @@ void GameMap::ReadMapLine(string* line)
 
 		for (int i = 0; i < amount; i++)
 		{
-			MapTile* newTile = new MapTile(MapTileType::Ground);
+			MapTile* newTile = new MapTile(Sprite(0, 67, 16, 16));
 			newTile->SetPosition(Vector2(posX + i * 16., 216));
 			MapTiles.push_back(newTile);
 		}
 
 		for (int i = 0; i < amount; i++)
 		{
-			MapTile* newTile = new MapTile(MapTileType::Ground);
+			MapTile* newTile = new MapTile(Sprite(0, 67, 16, 16));
 			newTile->SetPosition(Vector2(posX + i * 16., 232));
 			MapTiles.push_back(newTile);
 		}
@@ -125,7 +109,7 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
+		float x = stof(data[1]) + 8;
 		float y = stof(data[2]);
 
 		Goomba* goomba = new Goomba();
@@ -141,10 +125,97 @@ void GameMap::ReadMapLine(string* line)
 
 		CoinBlock* coinblock = new CoinBlock();
 		coinblock->SetPosition(Vector2(x, y));
+		MapTiles.push_back(coinblock);
 	}
-		return;
+	else if (data[0] == "HARDBLOCK")
+	{
+		if (data.size() <= 2)
+			return;
 
-	//Debug::GetReference()->DebugCollision(foo);
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+
+		MapTile* newTile = new MapTile(Sprite(0, 83, 16, 16));
+		newTile->SetPosition(Vector2(x, y));
+		MapTiles.push_back(newTile);
+	}
+	else if (data[0] == "BRICKBLOCK")
+	{
+		if (data.size() <= 2)
+			return;
+
+		float x = stof(data[1]);
+		float y = stof(data[2]);
+
+		BrickBlock* brickblock = new BrickBlock();
+		brickblock->SetPosition(Vector2(x, y));
+		MapTiles.push_back(brickblock);
+	}
+	else if (data[0] == "PIPE")
+	{
+		if (data.size() <= 2)
+			return;
+
+		int posX = stoi(data[1]) + 16;
+		int height = stoi(data[2]);
+
+		if (height < 2 || height > 4)
+			return;
+
+		MapTile* newTile = new MapTile(Sprite(Vector2(154, 219), 32, height * 16));
+		newTile->SetPosition(Vector2(posX, 208 - height * 8.));
+		MapTiles.push_back(newTile);
+	}
+	else if (data[0] == "BUSH")
+	{
+		if (data.size() <= 2)
+			return;
+
+		int posX = stoi(data[1]);
+		int length = stoi(data[2]);
+
+		if (length < 1 || length > 3)
+			return;
+
+		MapTile* newTile = new MapTile(bushes[length - 1], LayerType::Background);
+		newTile->SetPosition(Vector2(posX + (length + 2) * 8., 200));
+		MapTiles.push_back(newTile);
+	}
+	else if (data[0] == "CLOUD")
+	{
+		if (data.size() <= 3)
+			return;
+
+		int posX = stoi(data[1]);
+		int posY = stoi(data[2]);
+		int length = stoi(data[3]);
+
+		if (length < 1 || length > 3)
+			return;
+
+		MapTile* newTile = new MapTile(clouds[length - 1], LayerType::Background);
+		newTile->SetPosition(Vector2(posX + (length + 2) * 8., posY - 8.));
+		MapTiles.push_back(newTile);
+	}
+	else if (data[0] == "MOUNTAIN")
+	{
+		if (data.size() <= 2)
+			return;
+
+		int posX = stoi(data[1]);
+		int width = stoi(data[2]);
+
+		if (width != 3 && width != 5)
+			return;
+
+		MapTile* newTile = new MapTile(Sprite(Vector2(154, 32), 80, 35), LayerType::Background);
+
+		newTile->SetPosition(Vector2(posX + 24., 208. - 1.5));
+		if (width == 5)
+			newTile->SetPosition(Vector2(posX + 40., 208. - 17.5));
+
+		MapTiles.push_back(newTile);
+	}
 }
 
 void GameMap::LoadMap(int world, int level)

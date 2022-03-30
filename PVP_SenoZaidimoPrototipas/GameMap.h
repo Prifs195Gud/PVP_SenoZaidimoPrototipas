@@ -8,26 +8,14 @@
 
 using namespace std;
 
-enum class MapTileType
-{
-	Ground = 0,
-	Brick,
-	Empty,
-	CoinBlock
-};
-
 class MapTile : public StaticCollidable
 {
 public:
-	MapTile(MapTileType tileType);
-	MapTile(Sprite sprite, MapTileType tileType);
+	MapTile(Sprite sprite);
+	MapTile(Sprite sprite, LayerType layerType);
 	~MapTile();
 
 	FinalObjectType GetFinalObjectType() override;
-
-	MapTileType GetMapTileType();
-private:
-	MapTileType mapTileType;
 };
 
 class GameMap
