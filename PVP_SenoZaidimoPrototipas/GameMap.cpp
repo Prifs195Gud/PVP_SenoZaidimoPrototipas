@@ -134,7 +134,7 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		int posX = stoi(data[1]) + 8;
+		float posX = stof(data[1]) + 8;
 		int amount = stoi(data[2]);
 
 		for (int i = 0; i < amount; i++)
@@ -156,22 +156,22 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]) + 8;
-		float y = stof(data[2]);
+		float posX = stof(data[1]) + 8;
+		float posY = stof(data[2]) - 7;
 
 		Goomba* goomba = new Goomba();
-		goomba->SetPosition(Vector2(x, y));
+		goomba->SetPosition(Vector2(posX, posY));
 	}
 	else if (data[0] == "COINBLOCK")
 	{
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
-		float y = stof(data[2]);
+		float posX = stof(data[1]) + 8;
+		float posY = stof(data[2]) - 8;
 
 		CoinBlock* coinblock = new CoinBlock();
-		coinblock->SetPosition(Vector2(x, y));
+		coinblock->SetPosition(Vector2(posX, posY));
 		MapTiles.push_back(coinblock);
 	}
 	else if (data[0] == "HARDBLOCK")
@@ -179,11 +179,11 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
-		float y = stof(data[2]);
+		float posX = stof(data[1]) + 8;
+		float posY = stof(data[2]) - 8;
 
 		MapTile* newTile = new MapTile(MapTileType::HardBlock);
-		newTile->SetPosition(Vector2(x, y));
+		newTile->SetPosition(Vector2(posX, posY));
 		MapTiles.push_back(newTile);
 	}
 	else if (data[0] == "BRICKBLOCK")
@@ -191,11 +191,11 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		float x = stof(data[1]);
-		float y = stof(data[2]);
+		float posX = stof(data[1]) + 8;
+		float posY = stof(data[2]) - 8;
 
 		BrickBlock* brickblock = new BrickBlock();
-		brickblock->SetPosition(Vector2(x, y));
+		brickblock->SetPosition(Vector2(posX, posY));
 		MapTiles.push_back(brickblock);
 	}
 	else if (data[0] == "PIPE")
@@ -203,7 +203,7 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		int posX = stoi(data[1]) + 16;
+		float posX = stof(data[1]) + 16;
 		int height = stoi(data[2]);
 
 		if (height == 2 || height == 3 || height == 4) {
@@ -222,7 +222,7 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		int posX = stoi(data[1]);
+		float posX = stof(data[1]);
 		int length = stoi(data[2]);
 
 		if (length == 1 || length == 2 || length == 3) {
@@ -248,8 +248,8 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 3)
 			return;
 
-		int posX = stoi(data[1]);
-		int posY = stoi(data[2]);
+		float posX = stof(data[1]);
+		float posY = stof(data[2]);
 		int length = stoi(data[3]);
 
 		if (length == 1 || length == 2 || length == 3) {
@@ -275,7 +275,7 @@ void GameMap::ReadMapLine(string* line)
 		if (data.size() <= 2)
 			return;
 
-		int posX = stoi(data[1]);
+		float posX = stof(data[1]);
 		int width = stoi(data[2]);
 
 		if (width == 3 || width == 5) {
