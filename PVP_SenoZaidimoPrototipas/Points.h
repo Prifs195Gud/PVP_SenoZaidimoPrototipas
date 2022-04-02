@@ -5,10 +5,10 @@
 class Points : public SpriteObject {
 
 public:
-	Points(Vector2 pos);
+	Points(Vector2 pos, Vector2 pointScale);
 	~Points();
 	void Tick() override;
-	//void OnPositionChange() override;
+
 
 private:
 	int ticksAfterRemove;
@@ -17,5 +17,6 @@ private:
 	Vector2 positionoffset;
 	SpriteObject pointObject;
 	Vector2 position;
+	
 
 };

@@ -9,15 +9,12 @@ class Goomba : public CollidableSpriteObject
 private:
 
 	Vector2 positionoffset;
-	SpriteObject pointObject;
 	Animation walkingAnimation;
 	SpriteObject deathTexture;
 	float speed;
 	bool goingRight;
 	bool isRemoved;
 	int ticksAfterRemove;
-	int trigger_delay, trigger_cooldown;
-	int points_height;
 
 public:
 	Goomba();
