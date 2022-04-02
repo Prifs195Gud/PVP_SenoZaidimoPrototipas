@@ -1,5 +1,6 @@
 #include <Goomba.h>
 #include <HUD.h>
+#include <Points.h>
 Goomba::Goomba() : CollidableSpriteObject(Sprite(Vector2(32, 131), 16, 16)), pointObject(Sprite(), -1)
 {
 	points_height = 50;
@@ -7,12 +8,12 @@ Goomba::Goomba() : CollidableSpriteObject(Sprite(Vector2(32, 131), 16, 16)), poi
 	trigger_delay = 16;
 	speed = 0.5f;
 	goingRight = false;
- 	pointObject.SetSprite(Sprite(Vector2(0, 280), 21, 7));
+ 	//pointObject.SetSprite(Sprite(Vector2(0, 280), 21, 7));
 	deathTexture.SetSprite(Sprite(Vector2(32, 131), 16, 16));
 	walkingAnimation.LoadAnimFrames(Sprite(Vector2(0, 131), 16, 16));
 	walkingAnimation.LoadAnimFrames(Sprite(Vector2(16, 131), 16, 16));
 	deathTexture.Enable(false);
-	pointObject.Enable(false);
+	//pointObject.Enable(false);
 	isRemoved = false;
 	ticksAfterRemove = 0;
 	//offset.y = 20;
@@ -21,6 +22,7 @@ Goomba::Goomba() : CollidableSpriteObject(Sprite(Vector2(32, 131), 16, 16)), poi
 
 Goomba::~Goomba()
 {
+	
 }
 
 void Goomba::OnCollision(CollidableSpriteObject* collision) // override CollidableSpriteObject
@@ -66,6 +68,7 @@ void Goomba::Tick() // override CollidableSpriteObject
 	{
 		SetVelocity(Vector2::zero);
 		
+		/*
 		if (trigger_cooldown >= 8) {
 			float ratio = trigger_cooldown / (float)trigger_delay;
 			ratio = 1 - ratio;
@@ -76,6 +79,7 @@ void Goomba::Tick() // override CollidableSpriteObject
 			trigger_cooldown--;
 		}
 		pointObject.SetPosition(position + positionoffset);
+		*/
 		if (ticksAfterRemove < 100)
 			ticksAfterRemove++;
 		else 
@@ -105,23 +109,26 @@ void Goomba::OnPositionChange() // override CollidableSpriteObject
 	
 	deathTexture.SetPosition(position);
 	walkingAnimation.SetPosition(position);
-	pointObject.SetPosition(position + positionoffset);
+	//pointObject.SetPosition(position + positionoffset);
 }
 
 void Goomba::Remove()
 {
 	if (!isRemoved) 
 	{
+		Points *points = new Points(position);
 		
 		PlayerHUD* playerhud = PlayerHUD::GetReference();
 		playerhud->SetScore(100);
 		playerhud->DrawScore();
 		
+		
+
 		trigger_cooldown = trigger_delay;
 		isRemoved = true;
 		walkingAnimation.EnableRendering(false);
-		pointObject.Enable(true);
-		pointObject.SetPosition(position + positionoffset);
+		//pointObject.Enable(true);
+		//pointObject.SetPosition(position + positionoffset);
 		deathTexture.Enable(true);
 		EnableCollision(false);
 	}
