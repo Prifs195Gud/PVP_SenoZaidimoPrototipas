@@ -280,7 +280,7 @@ void GameMap::ReadMapLine(string* line)
 
 		if (width == 3 || width == 5) {
 			MapTile* newTile = new MapTile(MapTileType::Empty, LayerType::Background);
-			newTile->SetSprite(Sprite(Vector2(154, 32), 80, 35));
+			newTile->SetSprite(Sprite(Vector2(186, 243), 80, 35));
 			if (width == 3) {
 				newTile->SetPosition(Vector2(posX + 24., 208. - 1.5));
 			}
@@ -292,6 +292,10 @@ void GameMap::ReadMapLine(string* line)
 		else {
 			return;
 		}
+	}
+	else if (data[0] == "FINISH") 
+	{
+		AddFinishTextures();
 	}
 		return;
 
@@ -330,4 +334,8 @@ void GameMap::ClearMap()
 		delete MapTiles[i];
 
 	MapTiles.clear();
+}
+
+void GameMap::AddFinishTextures(float posX) {
+
 }

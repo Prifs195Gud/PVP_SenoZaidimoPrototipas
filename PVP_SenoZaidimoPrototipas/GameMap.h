@@ -44,6 +44,7 @@ public:
 
 	void LoadMap(int world, int level);
 	void ClearMap();
+	void AddFinishTextures(float posX);
 private:
 	static GameMap* singleton;
 
