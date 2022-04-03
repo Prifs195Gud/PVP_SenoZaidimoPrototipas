@@ -60,6 +60,11 @@ PlayerHUD* PlayerHUD::GetReference()
 	return singleton;
 }
 
+void PlayerHUD::Tick()
+{
+	Tickable::Tick();
+}
+
 int PlayerHUD::GetScore()
 {
 	return score;
