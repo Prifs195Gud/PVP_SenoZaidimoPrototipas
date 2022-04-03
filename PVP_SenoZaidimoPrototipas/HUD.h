@@ -36,5 +36,5 @@ private:
 
 	Text timeText;
 	Text timeValue;
-	int time;
+	double time;
 };

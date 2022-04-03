@@ -63,6 +63,9 @@ PlayerHUD* PlayerHUD::GetReference()
 void PlayerHUD::Tick()
 {
 	Tickable::Tick();
+
+	if(time >= 0)
+		time -= 1 / 60;
 }
 
 int PlayerHUD::GetScore()
@@ -87,5 +90,5 @@ int PlayerHUD::GetLevel()
 
 int PlayerHUD::GetTime()
 {
-	return time;
+	return (int)time;
 }
