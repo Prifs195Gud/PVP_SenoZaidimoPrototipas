@@ -1,4 +1,4 @@
-
+/*
 #include "CppUnitTest.h"
 #include "../PVP_SenoZaidimoPrototipas/HUD.cpp"
 
@@ -43,3 +43,4 @@ namespace UnitTest2
 		}
 	};
 }
+*/
