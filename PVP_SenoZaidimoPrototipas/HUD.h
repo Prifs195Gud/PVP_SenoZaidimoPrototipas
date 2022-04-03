@@ -19,6 +19,8 @@ public:
 	int GetWorld();
 	int GetLevel();
 	int GetTime();
+
+	string GetTimeString();
 private:
 	static PlayerHUD* singleton;
 

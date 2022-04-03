@@ -4,6 +4,8 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+#include <stdlib.h>
+
 namespace UnitTest2
 {
 	TEST_CLASS(UnitTest2)
@@ -27,6 +29,15 @@ namespace UnitTest2
 				hud->Tick();
 
 			Assert::AreEqual(hud->GetTime(), 159);
+
+			delete hud;
+		}
+
+		TEST_METHOD(laikoTekstas)
+		{
+			PlayerHUD* hud = new PlayerHUD();
+
+			Assert::AreEqual(hud->GetTimeString(), std::to_string(160));
 
 			delete hud;
 		}

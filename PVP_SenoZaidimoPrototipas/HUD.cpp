@@ -64,8 +64,39 @@ void PlayerHUD::Tick()
 {
 	Tickable::Tick();
 
-	if(time >= 0)
-		time -= 1 / 60;
+	if (time >= 0)
+	{
+		time -= 1. / 60.;
+
+		if (time < 0)
+			time = 0;
+
+		timeValue.SetText(GetTimeString());
+	}
+}
+
+string PlayerHUD::GetTimeString()
+{
+	string str = to_string((int)time);
+
+	switch (str.size())
+	{
+	case 0:
+		str = "000";
+		break;
+
+	case 1:
+		str = "00" + str;
+		break;
+
+	case 2:
+		str = "0" + str;
+
+	default:
+		break;
+	}
+
+	return str;
 }
 
 int PlayerHUD::GetScore()
