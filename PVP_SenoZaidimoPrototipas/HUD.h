@@ -10,6 +10,12 @@ public:
 	~PlayerHUD();
 
 	static PlayerHUD* GetReference();
+
+	int GetScore();
+	int GetCoins();
+	int GetWorld();
+	int GetLevel();
+	int GetTime();
 private:
 	static PlayerHUD* singleton;
 

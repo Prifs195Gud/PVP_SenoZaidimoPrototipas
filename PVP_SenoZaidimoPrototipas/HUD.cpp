@@ -59,3 +59,28 @@ PlayerHUD* PlayerHUD::GetReference()
 
 	return singleton;
 }
+
+int PlayerHUD::GetScore()
+{
+	return score;
+}
+
+int PlayerHUD::GetCoins()
+{
+	return money;
+}
+
+int PlayerHUD::GetWorld()
+{
+	return world;
+}
+
+int PlayerHUD::GetLevel()
+{
+	return level;
+}
+
+int PlayerHUD::GetTime()
+{
+	return time;
+}
