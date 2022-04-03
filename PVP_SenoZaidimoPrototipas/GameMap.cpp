@@ -295,7 +295,12 @@ void GameMap::ReadMapLine(string* line)
 	}
 	else if (data[0] == "FINISH") 
 	{
-		AddFinishTextures();
+		if (data.size() <= 1)
+			return;
+
+		float posX = stof(data[1]);
+
+		AddFinishTextures(posX);
 	}
 		return;
 
