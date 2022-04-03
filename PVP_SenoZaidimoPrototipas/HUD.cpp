@@ -9,7 +9,7 @@ PlayerHUD::PlayerHUD()
 	money = 0;
 	world = 1;
 	level = 1;
-	time = -1;
+	time = 160;
 
 	scoreText.SetText("mario");
 	scoreText.SetPosition(Vector2(28, 12));
@@ -58,4 +58,68 @@ PlayerHUD* PlayerHUD::GetReference()
 		singleton = new PlayerHUD();
 
 	return singleton;
+}
+
+void PlayerHUD::Tick()
+{
+	Tickable::Tick();
+
+	if (time >= 0)
+	{
+		time -= 1. / 60.;
+
+		if (time < 0)
+			time = 0;
+
+		timeValue.SetText(GetTimeString());
+	}
+}
+
+string PlayerHUD::GetTimeString()
+{
+	string str = to_string((int)time);
+
+	switch (str.size())
+	{
+	case 0:
+		str = "000";
+		break;
+
+	case 1:
+		str = "00" + str;
+		break;
+
+	case 2:
+		str = "0" + str;
+
+	default:
+		break;
+	}
+
+	return str;
+}
+
+int PlayerHUD::GetScore()
+{
+	return score;
+}
+
+int PlayerHUD::GetCoins()
+{
+	return money;
+}
+
+int PlayerHUD::GetWorld()
+{
+	return world;
+}
+
+int PlayerHUD::GetLevel()
+{
+	return level;
+}
+
+int PlayerHUD::GetTime()
+{
+	return (int)time;
 }

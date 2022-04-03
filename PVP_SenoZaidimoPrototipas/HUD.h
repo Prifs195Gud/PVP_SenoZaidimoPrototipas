@@ -2,14 +2,25 @@
 
 #include <Text.h>
 #include <Animation.h>
+#include <Tick.h>
 
-class PlayerHUD
+class PlayerHUD : public Tickable
 {
 public:
 	PlayerHUD();
 	~PlayerHUD();
 
 	static PlayerHUD* GetReference();
+
+	void Tick() override;
+
+	int GetScore();
+	int GetCoins();
+	int GetWorld();
+	int GetLevel();
+	int GetTime();
+
+	string GetTimeString();
 private:
 	static PlayerHUD* singleton;
 
@@ -27,5 +38,5 @@ private:
 
 	Text timeText;
 	Text timeValue;
-	int time;
+	double time;
 };

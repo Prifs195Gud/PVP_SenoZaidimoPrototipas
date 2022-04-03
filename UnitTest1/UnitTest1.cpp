@@ -1,6 +1,6 @@
-#include "pch.h"
+
 #include "CppUnitTest.h"
-#include "../PVP_SenoZaidimoPrototipas/Vectors.h"
+#include "../PVP_SenoZaidimoPrototipas/Vectors.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
