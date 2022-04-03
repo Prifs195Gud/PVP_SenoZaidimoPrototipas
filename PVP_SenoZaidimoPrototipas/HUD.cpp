@@ -9,7 +9,7 @@ PlayerHUD::PlayerHUD()
 	money = 0;
 	world = 1;
 	level = 1;
-	time = -1;
+	time = 160;
 
 	scoreText.SetText("mario");
 	scoreText.SetPosition(Vector2(28, 12));
