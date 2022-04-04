@@ -140,3 +140,7 @@ Vector2 Rendering:: GetDesktopResolution()
 	return Vector2(desktop.right, desktop.bottom);
 }
 
+Vector2 Rendering::GetMaxRenderScale()
+{
+	return Vector2::zero;
+}

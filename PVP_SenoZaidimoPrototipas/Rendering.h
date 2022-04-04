@@ -18,6 +18,8 @@ public:
 	static Rendering* GetReference();
 
 	Vector2 GetRenderScale();
+	Vector2 GetDesktopResolution();
+	Vector2 GetMaxRenderScale();
 
 	void RenderWindow();
 	void SetTileset(SDL_Texture* tileset_);
@@ -44,5 +46,4 @@ private:
 	void DrawMapBackground();
 	void RenderAllObjects();
 
-	Vector2 GetDesktopResolution();
 };
