@@ -7,6 +7,7 @@ using namespace std;
 class VHelper
 {
 public:
+	VHelper();
 	VHelper(float x, float y);
 	~VHelper();
 	float GetX();
@@ -41,7 +42,9 @@ public:
 	void SetSprite(SHelper s);
 	void SetPosition(VHelper v);
 	SHelper GetSprite();
+	VHelper GetPosition();
 private:
+	VHelper v;
 	SHelper s;
 };
 

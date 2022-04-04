@@ -1,5 +1,9 @@
 #include "..\PVP_SenoZaidimoPrototipas\GMHelper.h"
 
+VHelper::VHelper() {
+
+}
+
 VHelper::~VHelper() {
 
 }
@@ -48,6 +52,7 @@ SHelper::~SHelper() {
 }
 
 MTHelper::MTHelper() {
+	v = VHelper();
 	s = SHelper();
 }
 
@@ -56,11 +61,15 @@ MTHelper::~MTHelper() {
 }
 
 void MTHelper::SetPosition(VHelper v) {
-
+	this->v = v;
 }
 
 void MTHelper::SetSprite(SHelper s) {
 	this->s = s;
+}
+
+VHelper MTHelper::GetPosition() {
+	return v;
 }
 
 SHelper MTHelper::GetSprite() {
