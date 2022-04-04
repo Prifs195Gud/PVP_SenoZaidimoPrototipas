@@ -44,7 +44,8 @@ public:
 
 	void LoadMap(int world, int level);
 	void ClearMap();
-	void AddFinishTextures(float posX);
+	void AddFlag(float posX);
+	void AddCastle(float posX);
 private:
 	static GameMap* singleton;
 

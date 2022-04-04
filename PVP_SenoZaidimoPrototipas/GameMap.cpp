@@ -1,4 +1,4 @@
-#include <GameMap.h>
+#include "..\PVP_SenoZaidimoPrototipas\GameMap.h"
 #include <Windows.h>
 #include <fstream>
 #include <sstream>
@@ -7,6 +7,7 @@
 #include <Goomba.h>
 #include <CoinBlock.h>
 #include <BrickBlock.h>
+#include <string>
 
 MapTile::MapTile(MapTileType tileType)
 {
@@ -293,14 +294,23 @@ void GameMap::ReadMapLine(string* line)
 			return;
 		}
 	}
-	else if (data[0] == "FINISH") 
+	else if (data[0] == "FLAG") 
 	{
-		if (data.size() <= 1)
+		if (data.size() < 1)
 			return;
 
 		float posX = stof(data[1]);
 
-		AddFinishTextures(posX);
+		AddFlag(posX);
+	}
+	else if (data[0] == "CASTLE")
+	{
+		if (data.size() < 1)
+			return;
+
+		float posX = stof(data[1]);
+
+		AddCastle(posX);
 	}
 		return;
 
@@ -341,6 +351,10 @@ void GameMap::ClearMap()
 	MapTiles.clear();
 }
 
-void GameMap::AddFinishTextures(float posX) {
+void GameMap::AddFlag(float posX) {
+	
+}
 
+void GameMap::AddCastle(float posX) {
+	
 }
