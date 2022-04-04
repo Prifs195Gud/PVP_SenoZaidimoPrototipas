@@ -365,5 +365,6 @@ void GameMap::AddFlag(float posX) {
 void GameMap::AddCastle(float posX) {
 	MapTile* castle = new MapTile(MapTileType::Empty, LayerType::Background);
 	castle->SetSprite(Sprite(Vector2(177, 8), 80, 80));
+	castle->SetPosition(Vector2(posX + 40, 168));
 	MapTiles.push_back(castle);
 }

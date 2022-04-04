@@ -55,7 +55,7 @@ namespace GMHelperTests
 		TEST_METHOD(testCastlePosition)
 		{
 			GMHelper GMH = GMHelper();
-			GMH.AddFlag(3232);
+			GMH.AddCastle(3232);
 			Assert::AreEqual((float)3272, GMH.GetMapTiles()[0]->GetPosition().GetX());
 			Assert::AreEqual((float)168, GMH.GetMapTiles()[0]->GetPosition().GetY());
 		}
