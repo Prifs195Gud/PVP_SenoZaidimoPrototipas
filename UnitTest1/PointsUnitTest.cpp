@@ -19,6 +19,13 @@ namespace PointsUnitTest
 			Assert::AreEqual(Vector2(0.5, 0.5), result);
 		}
 
+		TEST_METHOD(getPoints)
+		{
+
+			Points points(Vector2(0.5, 0.5), Vector2(1, 1));
+			Vector2 result = points.GetPointScale();
+			Assert::AreEqual(Vector2(1, 1), result);
+		}
 
 	};
 }
