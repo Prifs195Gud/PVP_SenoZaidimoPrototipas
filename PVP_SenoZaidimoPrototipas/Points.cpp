@@ -36,4 +36,9 @@ void Points::Tick() {
 		delete this;
 
 }
+Vector2 Points::GetPosition() {
+	return position; 
+}
+
+
 

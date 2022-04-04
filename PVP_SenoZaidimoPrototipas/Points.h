@@ -8,7 +8,8 @@ public:
 	Points(Vector2 pos, Vector2 pointScale);
 	~Points();
 	void Tick() override;
-
+	Vector2 GetPosition();
+	Vector2 GetPointScale();
 
 private:
 	int ticksAfterRemove;
