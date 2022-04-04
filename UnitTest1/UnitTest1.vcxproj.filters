@@ -24,6 +24,9 @@
     <ClCompile Include="..\PVP_SenoZaidimoPrototipas\Vectors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PointsUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
