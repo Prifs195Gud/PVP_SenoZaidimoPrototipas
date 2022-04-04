@@ -353,8 +353,10 @@ void GameMap::ClearMap()
 
 void GameMap::AddFlag(float posX) {
 	MapTile* topflag = new MapTile(MapTileType::Empty, LayerType::Background);
+	topflag->SetSprite(Sprite(Vector2(257, 8), 20, 89));
 	MapTiles.push_back(topflag);
 	MapTile* bottomflag = new MapTile(MapTileType::Empty, LayerType::Background);
+	bottomflag->SetSprite(Sprite(Vector2(272, 33), 2, 64));
 	MapTiles.push_back(bottomflag);
 }
 
