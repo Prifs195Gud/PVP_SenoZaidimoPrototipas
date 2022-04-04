@@ -134,6 +134,9 @@ Sprite Rendering::GetLetterTexture(char letter)
 
 Vector2 Rendering:: GetDesktopResolution()
 {
-	
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	return Vector2(desktop.right, desktop.bottom);
 }
 
