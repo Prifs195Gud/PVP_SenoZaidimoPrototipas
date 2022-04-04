@@ -101,5 +101,6 @@ void GMHelper::AddFlag(float posX) {
 
 void GMHelper::AddCastle(float posX) {
 	MTHelper* castle = new MTHelper;
+	castle->SetSprite(SHelper(VHelper(177, 8), 80, 80));
 	maptiles.push_back(castle);
 }
