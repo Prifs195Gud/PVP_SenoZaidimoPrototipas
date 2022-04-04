@@ -53,6 +53,8 @@ void Rendering::RenderWindow()
 
 Rendering::Rendering()
 {
+	renderScale = GetMaxRenderScale();
+
 	if (singleton == nullptr)
 	{
 		singleton = this;

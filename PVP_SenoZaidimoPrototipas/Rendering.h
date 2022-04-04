@@ -35,7 +35,7 @@ private:
 	SDL_Texture* tileset;
 	SDL_Renderer* mainRenderer;
 
-	const Vector2 renderScale = Vector2(4.0, 4.0);
+	Vector2 renderScale;
 
 	vector<Sprite> lettersData;
 	unordered_map<char, size_t> lettersHashmap;
