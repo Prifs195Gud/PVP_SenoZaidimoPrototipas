@@ -142,5 +142,9 @@ Vector2 Rendering:: GetDesktopResolution()
 
 Vector2 Rendering::GetMaxRenderScale()
 {
-	return Vector2::zero;
+	Vector2 resolution = GetDesktopResolution();
+	int scaleX = resolution.x / GAME_BASE_RESOLUTION.x;
+	int scaleY = resolution.y / GAME_BASE_RESOLUTION.y;
+	int scale = min(scaleX, scaleY);
+	return Vector2(scale, scale);
 }
