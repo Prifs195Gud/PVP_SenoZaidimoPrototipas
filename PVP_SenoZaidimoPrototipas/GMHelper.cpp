@@ -1,21 +1,5 @@
 #include "..\PVP_SenoZaidimoPrototipas\GMHelper.h"
 
-MTHelper::MTHelper() {
-
-}
-
-MTHelper::~MTHelper() {
-
-}
-
-void MTHelper::SetPosition(VHelper v) {
-
-}
-
-void MTHelper::SetSprite(SHelper s) {
-
-}
-
 VHelper::~VHelper() {
 
 }
@@ -36,10 +20,51 @@ VHelper::VHelper(float x, float y) {
 SHelper::SHelper(VHelper v, float x, float y) {
 	posX = v.GetX();
 	posY = v.GetY();
+	this->x = x;
+	this->y = y;
+}
+
+SHelper::SHelper() {
+	posX = 0;
+	posY = 0;
+	this->x = 0;
+	this->y = 0;
+}
+
+VHelper SHelper::GetCoords() {
+	return VHelper(posX, posY);
+}
+
+float SHelper::GetX() {
+	return x;
+}
+
+float SHelper::GetY() {
+	return y;
 }
 
 SHelper::~SHelper() {
 
+}
+
+MTHelper::MTHelper() {
+	s = SHelper();
+}
+
+MTHelper::~MTHelper() {
+
+}
+
+void MTHelper::SetPosition(VHelper v) {
+
+}
+
+void MTHelper::SetSprite(SHelper s) {
+	this->s = s;
+}
+
+SHelper MTHelper::GetSprite() {
+	return s;
 }
 
 GMHelper::GMHelper() {

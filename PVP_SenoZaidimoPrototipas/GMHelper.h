@@ -20,7 +20,11 @@ class SHelper
 {
 public:
 	SHelper(VHelper v, float x, float y);
+	SHelper();
 	~SHelper();
+	VHelper GetCoords();
+	float GetX();
+	float GetY();
 private:
 	float posX;
 	float posY;
@@ -36,7 +40,9 @@ public:
 
 	void SetSprite(SHelper s);
 	void SetPosition(VHelper v);
+	SHelper GetSprite();
 private:
+	SHelper s;
 };
 
 class GMHelper
