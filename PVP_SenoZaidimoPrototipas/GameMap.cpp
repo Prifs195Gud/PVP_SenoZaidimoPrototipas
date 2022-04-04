@@ -352,7 +352,10 @@ void GameMap::ClearMap()
 }
 
 void GameMap::AddFlag(float posX) {
-	
+	MapTile* topflag = new MapTile(MapTileType::Empty, LayerType::Background);
+	MapTiles.push_back(topflag);
+	MapTile* bottomflag = new MapTile(MapTileType::Empty, LayerType::Background);
+	MapTiles.push_back(bottomflag);
 }
 
 void GameMap::AddCastle(float posX) {

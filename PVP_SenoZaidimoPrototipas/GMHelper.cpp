@@ -55,7 +55,10 @@ vector<MTHelper*> GMHelper::GetMapTiles() {
 }
 
 void GMHelper::AddFlag(float posX) {
-	
+	MTHelper* topflag = new MTHelper;
+	maptiles.push_back(topflag);
+	MTHelper* bottomflag = new MTHelper;
+	maptiles.push_back(bottomflag);
 }
 
 void GMHelper::AddCastle(float posX) {
