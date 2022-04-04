@@ -1,4 +1,4 @@
-#include "pch.h"
+/*#include "pch.h"
 #include "CppUnitTest.h"
 #include "../PVP_SenoZaidimoPrototipas/GameMap.cpp"
 
@@ -24,4 +24,4 @@ namespace GameMapTests
 			Assert::AreEqual(1, (int)GM.GetMapTiles()->size());
 		}
 	};
-}
+}*/
