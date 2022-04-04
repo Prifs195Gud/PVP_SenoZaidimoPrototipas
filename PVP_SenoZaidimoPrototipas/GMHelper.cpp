@@ -91,9 +91,11 @@ vector<MTHelper*> GMHelper::GetMapTiles() {
 void GMHelper::AddFlag(float posX) {
 	MTHelper* topflag = new MTHelper;
 	topflag->SetSprite(SHelper(VHelper(257, 8), 20, 89));
+	topflag->SetPosition(VHelper(posX + 2, 83.5));
 	maptiles.push_back(topflag);
 	MTHelper* bottomflag = new MTHelper;
 	bottomflag->SetSprite(SHelper(VHelper(272, 33), 2, 64));
+	bottomflag->SetPosition(VHelper(posX + 8, 160));
 	maptiles.push_back(bottomflag);
 }
 
