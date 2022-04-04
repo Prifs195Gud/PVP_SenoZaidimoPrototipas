@@ -363,5 +363,6 @@ void GameMap::AddFlag(float posX) {
 }
 
 void GameMap::AddCastle(float posX) {
-	
+	MapTile* castle = new MapTile(MapTileType::Empty, LayerType::Background);
+	MapTiles.push_back(castle);
 }
