@@ -40,7 +40,9 @@ private:
 
 	void InitializeMapTiles();
 	void InitializeFont();
-
+	
 	void DrawMapBackground();
 	void RenderAllObjects();
+
+	Vector2 GetDesktopResolution();
 };

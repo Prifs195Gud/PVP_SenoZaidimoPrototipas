@@ -5,6 +5,7 @@
 #include <map>
 #include <GameCamera.h>
 #include <Game.h>
+#include "wtypes.h"
 
 Rendering* Rendering::singleton = nullptr;
 
@@ -130,3 +131,9 @@ Sprite Rendering::GetLetterTexture(char letter)
 
 	return lettersData[lettersHashmap[letter]];
 }
+
+Vector2 Rendering:: GetDesktopResolution()
+{
+	
+}
+
