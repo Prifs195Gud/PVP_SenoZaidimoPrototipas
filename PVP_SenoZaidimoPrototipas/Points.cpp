@@ -2,6 +2,7 @@
 
 Points::Points(Vector2 pos, Vector2 scale1) : SpriteObject(Sprite(Vector2(0, 280), 21, 7)) {
 
+	scale = scale1;
 	position = pos;
 	points_height = 50;
 	trigger_cooldown = 16;
@@ -38,6 +39,9 @@ void Points::Tick() {
 }
 Vector2 Points::GetPosition() {
 	return position; 
+}
+Vector2 Points::GetPointScale() {
+	return scale;
 }
 
 

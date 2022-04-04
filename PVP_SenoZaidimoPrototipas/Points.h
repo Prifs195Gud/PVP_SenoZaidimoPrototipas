@@ -18,6 +18,7 @@ private:
 	Vector2 positionoffset;
 	SpriteObject pointObject;
 	Vector2 position;
+	Vector2 scale;
 	
 
 };
