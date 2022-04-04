@@ -34,5 +34,12 @@ namespace GMHelperTests
 			Assert::AreEqual((float)3168 + 2, GMH.GetMapTiles()[0]->GetPosition().GetX());
 			Assert::AreEqual((float)83.5, GMH.GetMapTiles()[0]->GetPosition().GetY());
 		}
+
+		TEST_METHOD(testCastleCount)
+		{
+			GMHelper GMH = GMHelper();
+			GMH.AddCastle(3232);
+			Assert::AreEqual(1, (int)GMH.GetMapTiles().size());
+		}
 	};
 }

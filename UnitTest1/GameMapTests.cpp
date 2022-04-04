@@ -16,5 +16,12 @@ namespace GameMapTests
 			GM.AddFlag(3168);
 			Assert::AreEqual(2, (int)GM.GetMapTiles()->size());
 		}
+
+		TEST_METHOD(testCastleCount)
+		{
+			GameMap GM = GameMap();
+			GM.AddCastle(3232);
+			Assert::AreEqual(1, (int)GM.GetMapTiles()->size());
+		}
 	};
 }
